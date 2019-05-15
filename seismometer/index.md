@@ -23,7 +23,7 @@ After browsing the internet for different DIY seismometers, I deciede for a vert
 based on ease of build. Specifically [https://tc1seismometer.wordpress.com/](https://tc1seismometer.wordpress.com/) was a great resource for
 information on the construction. As for the electronics, this page [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was helpful.
 
-In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves relative to the coil a small current is created which by the use of an op-amp is amplified and represented as a voltage swinging from around 0V to 5V. This voltage sampled by an ADC and a RaspberryPi at 300Hz, and then in software passed through a low-pass filter, with a cutoff frequency of about 1.4Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 300 samples per second to a more suitable 15 samples per second and sent to a webserver that stores the data, saves plots as images, and provides an API for the web frontend.
+In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves relative to the coil a small current is created which by the use of an op-amp is amplified and represented as a voltage swinging from around 0V to 5V. This voltage sampled by an ADC and a RaspberryPi at 300 Hz, and then in software passed through a low-pass filter, with a cutoff frequency of about 1.4 Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 300 samples per second to a more suitable 15 samples per second and sent to a webserver that stores the data, saves plots as images, and provides an API for the web frontend.
 
 ## Construction
 
@@ -92,20 +92,20 @@ _An additional note:_ The above mentioned 2.5V bias voltage is based on the assu
 
 #### OP-Amp gain / Feedback loop
 
-The gain of the second op-amp is the fraction of the two feed back resistors and the resistans of the coil. In this case 2MΩ / 571Ω = 3502. The capacitors in the feed back loop forms a low-pass filter with a cutoff frequency Fc = 1 / 2πRC = 1(2π\*2MΩ\*50nF) = ~1.59Hz
+The gain of the second op-amp is the fraction of the two feed back resistors and the resistans of the coil. In this case 2MΩ / 571Ω = 3502. The capacitors in the feed back loop forms a low-pass filter with a cutoff frequency Fc = 1 / 2πRC = 1(2π\*2MΩ\*50nF) = ~1.59 Hz
 Ceramic capacitors are known for their piezoelectric effects which may result in increased noise. In low noise filtereing applications such as this case, film capacitors are therefore a better choice.
 
 ### Low-pass Filtering
 
-In the original circuit I used an 8 Pole Sallen–Key low-pass filter with a cutoff frequency of ~1.59Hz between the op-amp output and the ADC input. However, as I later came to realize, analog filters with such a low cutoff frequency are not all that good, and I abandoned those analog filters and went for a digital filter as a post processing step on the RaspberryPi. As digital filters do not suffer from the physical limitations of analog filters, they can provide a clean cutoff down to our desired ~1Hz.
+In the original circuit I used an 8 Pole Sallen–Key low-pass filter with a cutoff frequency of ~1.59 Hz between the op-amp output and the ADC input. However, as I later came to realize, analog filters with such a low cutoff frequency are not all that good, and I abandoned those analog filters and went for a digital filter as a post processing step on the RaspberryPi. As digital filters do not suffer from the physical limitations of analog filters, they can provide a clean cutoff down to our desired ~1 Hz.
 
 An analog low-pass filter is still desirable though, and the reason is [aliasing](https://en.wikipedia.org/wiki/Aliasing). If noise with a frequency content higher than _half the samplerate_ (the [nyqvist frequency](https://en.wikipedia.org/wiki/Nyquist_frequency)) is present, this noise will be mixed with, and indistinguishable from the actual signal. By increasing the sampling rate, so called [oversampling](https://en.wikipedia.org/wiki/Oversampling), a larger portion of the noise can be filtered, but there is always the risk that there is some high frequency noise that cannot be removed. 
 
-An effective solution is to combine oversampling with a low-pass filter, a so called [anti-aliasing filter](https://en.wikipedia.org/wiki/Anti-aliasing_filter). By oversampling the signal, the cutoff frequency of the anti-aliasing filter can be moved to a higher, more suitable frequency, and the damands of the filter are relaxed. Once the filtered signal is sampled, we can apply the digital filter, and then dowsample the signal to a rate suitable for our 1Hz seismometer signal. A final sample rate of about 10 times the frequency of the signal of interest will do fine.
+An effective solution is to combine oversampling with a low-pass filter, a so called [anti-aliasing filter](https://en.wikipedia.org/wiki/Anti-aliasing_filter). By oversampling the signal, the cutoff frequency of the anti-aliasing filter can be moved to a higher, more suitable frequency, and the damands of the filter are relaxed. Once the filtered signal is sampled, we can apply the digital filter, and then dowsample the signal to a rate suitable for our 1 Hz seismometer signal. A final sample rate of about 10 times the frequency of the signal of interest will do fine.
 
 >Current setup:
->The ADC is sampled at 500Hz, and a 4 pole sallen-key low-pass >filter with a cutoff frequency of about 106Hz.
->With a nyqvist frequency of 250Hz, the filter has a 250-106=144Hz transition band to remove frequencies that would cause aliasing.
+>The ADC is sampled at 500 Hz, and a 4 pole sallen-key low-pass filter with a cutoff frequency of about 106 Hz is used.
+>With a nyqvist frequency of 250 Hz, the filter has a 250-106=144 Hz transition band to remove frequencies that would cause aliasing.
 
 ### Analog to Digital Converter (ADC)
 
@@ -129,7 +129,7 @@ You can find the source code of the script [here at Bitbucket](https://bitbucket
 
 The client is a python script running on the RaspberryPi which makes use of [obspy](https://www.obspy.org/), a framework for processing seismological data.
 
-The script collects 10 seconds worth of data with a sample rate of 300 samples per second. The data is then passed through digital filter with a cutoff frequency of 1.4Hz.
+The script collects 10 seconds worth of data with a sample rate of 300 samples per second. The data is then passed through digital filter with a cutoff frequency of 1.4 Hz.
 After the low-pass filter, the data is downsampled from the 300 samples per second to 15 samples per second. As the final step the data points are rounded to integers, and sent via a websocket to the server.
 
 #### Average value and drift
