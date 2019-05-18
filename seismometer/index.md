@@ -23,17 +23,17 @@ After browsing the internet for different DIY seismometers, I deciede for a vert
 based on ease of build. Specifically [https://tc1seismometer.wordpress.com/](https://tc1seismometer.wordpress.com/) was a great resource for
 information on the construction. As for the electronics, this page [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was helpful.
 
-In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves relative to the coil a small current is created which by the use of an op-amp is amplified and represented as a voltage swinging from around 0V to 5V. This voltage sampled by an ADC and a RaspberryPi at 300 Hz, and then in software passed through a low-pass filter, with a cutoff frequency of about 1.4 Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 300 samples per second to a more suitable 15 samples per second and sent to a webserver that stores the data, saves plots as images, and provides an API for the web frontend.
+In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves relative to the coil a small current is created which by the use of an op-amp is amplified and represented as a voltage swinging from around 0V to 5V. This voltage is sampled by an ADC and a RaspberryPi at 500 Hz, and then in software passed through a low-pass filter with a cutoff frequency of about 1.4 Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 500 samples per second to a more suitable 15 samples per second and sent to a webserver that stores the data, saves plots as images, and provides an API for the web frontend.
 
 ## Construction
 
-Although the materials differ, the general construction principle of this seismometer and the TC1 seismometer are very much alike. The most notable difference being the tube, which I in an attempt to minimize RF noise, was chosen to be a metal mesh rather than an acrylic pixpe. A not of warning here, make sure the metal is NOT magnetig. The same thing goes for the nuts and skrews to clamp the rolled net toghether. The mesh came in a plastic tube, which i kept on in order to prevent moving air from affecting the seismometer.
+Although the materials differ, the general construction principle of this seismometer and the TC1 seismometer are very much alike. The most notable difference being the tube, which I in an attempt to minimize RF noise, was chosen to be a metal mesh rather than an acrylic pipe. A word of advice, make sure the metal is NOT magnetic. The same thing goes for the nuts and skrews to hold the rolled net together. The metal mesh came wrapped in plastic, which I kept on in order to prevent moving air from affecting the seismometer.
 
 <<image of rolled net>>
 
-The coils is wound with a <<GAUGE>> wire around a used up tape role, with a large enough inner diameter for my neodymium magnets
-to pass trough with some margin. The desired resistance of the coil 700 ohms to 200 ohms according to the TC1 webpage.
-My coild turned out a bit short of that, with a resistance of 670 ohms, since the wire snapped while winding the coil.
+The coils is wound with an AWG 18 wire around an empty tape role, with a large enough inner diameter for the neodymium magnets
+to pass through with some margin. The desired resistance of the coil is 700 ohms to 2000 ohms according to the TC1 webpage.
+My coil turned out a bit shy of that, with a resistance of 570 ohms, since the wire snapped while winding the coil.
 
 <<image of coil>>
 spole: vilken gauge, vilket motstånd
@@ -61,8 +61,7 @@ The spring is held into place by a piece of stiff paper, and hung from the top o
 This could certainly be improved as even a light touch easily knocks the spring and magnets out of position.
 <<insert image of paper contraption>>
 
-The the coil a shielded stereo audio cable is used. The shielding is connected to the metal mesh itself, and the two inner cables are attached to each end of the coil. This way, the current from the coil is passed as a differential signal, with a shielding further increasing the noise immunity. When trying to use a mono stereo cable, using the single internal cable and the shielding
-to pass the signal the noise level became noticably higher.
+The connect the coil to the electric circuit a shielded stereo audio cable is used. The shielding is connected to the metal mesh itself, and the two inner cables are attached to each end of the coil. This way, the current from the coil is passed as a differential signal, with a shielding further increasing the noise immunity. When trying to use a mono stereo cable, using the single internal cable and the shielding to pass the signal the noise level became noticably higher.
 
 <<insert image of coil and cable assembly>>
 
@@ -81,27 +80,27 @@ Furthermore, for the regulation to work properly, there is a required minum ESR 
 
 ### OP-Amp
 
-There are two op-amps in this circuit. One creates a ~2.5V bias voltage for the coil, and the other one amplifies the signal from the coil 2000-3000 times.
+There are four op-amps in this circuit. One creates a ~2.5V bias voltage for the coil, and another amplifies the signal from the coil 2000-3000 times. The last two ones form a low-pass filter sitting right before the ADC.
 
-#### The bias voltage:
+#### The bias voltage
 
-When the magnets move up and down through the coil, currents in both directions will be generated depending on the direction of movement. Currents in different directions would mean both positive and negative output voltages by the op-amp, but since we are only using a positive 5V supply rail, the output voltage cannot go below ground. By biasing the coil to 2.5V, the output voltage will swing from 0V - 5V with 2.5V as its resting position. This also a requirement for the ADC that does not work with negative voltages either.
+When the magnets move up and down through the coil, currents in both directions will be generated depending on the direction of movement. Currents in different directions would lead to both positive and negative output voltages by the op-amp, but since we are only using a positive 5V supply rail, the output voltage cannot go below ground. By biasing the coil to 2.5V we are shifting the midpoint from 0V (ground) to right in between ground and the power rail. Thus the output voltage will swing from 0V - 5V with 2.5V as its resting position. This also a requirement for the ADC that does not work with negative voltages either.
 The bias voltage is created with one of the op-amps configured as a voltage follower, to get a low impedence 2.5V source.
 
-_An additional note:_ The above mentioned 2.5V bias voltage is based on the assumption that the op-amp can drive the output voltage all the way down to 0V (ground) and up to 5V (power rail). In practice however, that is rarely the case, and the bias voltage should set to the middle point between the max and the min output voltages of the op-amp.
+_An additional note:_ The above mentioned 2.5V bias voltage is based on the assumption that the op-amp can drive the output voltage all the way down to 0V (ground) and up to 5V (power rail). In practice however, that is rarely the case, and the bias voltage should be set to the middle point between the max and the min output voltages of the op-amp.
 
 #### OP-Amp gain / Feedback loop
 
-The gain of the second op-amp is the fraction of the two feed back resistors and the resistans of the coil. In this case 2MΩ / 571Ω = 3502. The capacitors in the feed back loop forms a low-pass filter with a cutoff frequency Fc = 1 / 2πRC = 1(2π\*2MΩ\*50nF) = ~1.59 Hz
-Ceramic capacitors are known for their piezoelectric effects which may result in increased noise. In low noise filtereing applications such as this case, film capacitors are therefore a better choice.
+The gain of the second op-amp is the fraction of the two feed back resistors and the resistans of the coil. In this case 2MΩ / 570Ω = 3509. The capacitors in the feed back loop forms a low-pass filter with a cutoff frequency Fc = 1 / 2πRC = 1(2π\*2MΩ\*50nF) = ~1.59 Hz
+Ceramic capacitors are known for their piezoelectric effects which might result in increased noise. In low noise filtereing applications such as this case, film capacitors can be a better choice.
 
 ### Low-pass Filtering
 
-In the original circuit I used an 8 Pole Sallen–Key low-pass filter with a cutoff frequency of ~1.59 Hz between the op-amp output and the ADC input. However, as I later came to realize, analog filters with such a low cutoff frequency are not all that good, and I abandoned those analog filters and went for a digital filter as a post processing step on the RaspberryPi. As digital filters do not suffer from the physical limitations of analog filters, they can provide a clean cutoff down to our desired ~1 Hz.
+In the original circuit an 8 Pole Sallen–Key low-pass filter with a cutoff frequency of ~1.59 Hz was used in between the op-amp output and the ADC input. However, as I later came to realize, analog filters with such a low cutoff frequency are not all that good, and I abandoned those analog filters and went for a digital filter as a post processing step on the RaspberryPi. As digital filters do not suffer from the physical limitations of analog filters, they can provide a clean cutoff down to our desired ~1 Hz.
 
-An analog low-pass filter is still desirable though, and the reason is [aliasing](https://en.wikipedia.org/wiki/Aliasing). If noise with a frequency content higher than _half the samplerate_ (the [nyqvist frequency](https://en.wikipedia.org/wiki/Nyquist_frequency)) is present, this noise will be mixed with, and indistinguishable from the actual signal. By increasing the sampling rate, so called [oversampling](https://en.wikipedia.org/wiki/Oversampling), a larger portion of the noise can be filtered, but there is always the risk that there is some high frequency noise that cannot be removed. 
+An analog low-pass filter is still desirable though, and the reason is [aliasing](https://en.wikipedia.org/wiki/Aliasing). If noise with a frequency content higher than _half the samplerate_ (the [nyqvist frequency](https://en.wikipedia.org/wiki/Nyquist_frequency)) is present, this noise will be mixed with, and indistinguishable from the actual signal. By increasing the sampling rate, so called [oversampling](https://en.wikipedia.org/wiki/Oversampling), a larger portion of the noise can be filtered, but there is always the risk that there is some high frequency noise that cannot be removed.
 
-An effective solution is to combine oversampling with a low-pass filter, a so called [anti-aliasing filter](https://en.wikipedia.org/wiki/Anti-aliasing_filter). By oversampling the signal, the cutoff frequency of the anti-aliasing filter can be moved to a higher, more suitable frequency, and the damands of the filter are relaxed. Once the filtered signal is sampled, we can apply the digital filter, and then dowsample the signal to a rate suitable for our 1 Hz seismometer signal. A final sample rate of about 10 times the frequency of the signal of interest will do fine.
+An effective solution is therfore to combine oversampling with a low-pass filter, a so called [anti-aliasing filter](https://en.wikipedia.org/wiki/Anti-aliasing_filter). By oversampling the signal, the cutoff frequency of the anti-aliasing filter can be moved to a higher, more suitable frequency, and the damands of the filter are relaxed. Once the filtered signal is sampled, we can apply the digital low pass filter, and then dowsample the signal to a rate suitable for our 1 Hz seismometer signal. A final sample rate of about 10 times the frequency of the signal of interest will do fine.
 
 >Current setup:
 >The ADC is sampled at 500 Hz, and a 4 pole sallen-key low-pass filter with a cutoff frequency of about 106 Hz is used.
@@ -109,7 +108,7 @@ An effective solution is to combine oversampling with a low-pass filter, a so ca
 
 ### Analog to Digital Converter (ADC)
 
-The ADC currently in use is a MCP3208, a 12 bit ADC with an SPI output for communication with the RaspberryPi. 
+The ADC currently in use is a MCP3208, a 12 bit ADC with an SPI output for communication with the RaspberryPi.
 
 ### Logic Level Shifter
 
@@ -129,8 +128,8 @@ You can find the source code of the script [here at Bitbucket](https://bitbucket
 
 The client is a python script running on the RaspberryPi which makes use of [obspy](https://www.obspy.org/), a framework for processing seismological data.
 
-The script collects 10 seconds worth of data with a sample rate of 300 samples per second. The data is then passed through digital filter with a cutoff frequency of 1.4 Hz.
-After the low-pass filter, the data is downsampled from the 300 samples per second to 15 samples per second. As the final step the data points are rounded to integers, and sent via a websocket to the server.
+The script collects 10 seconds worth of data with a sample rate of 500 samples per second. The data is then passed through digital filter with a cutoff frequency of 1.4 Hz.
+After the low-pass filter, the data is downsampled from the 500 samples per second to 15 samples per second. As the final step the data points are rounded to integers, and sent via a websocket to the server.
 
 #### Average value and drift
 
