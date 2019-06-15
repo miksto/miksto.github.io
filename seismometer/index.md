@@ -135,7 +135,7 @@ The software consists of three pieces.
 
 ### Client
 
-You can find the source code of the script [here at Bitbucket](https://bitbucket.org/miksto/seismometer-app/src/master/seism_logger.py)
+You can find the source code of the script [here at Bitbucket](https://bitbucket.org/miksto/seismometer-server-app/src/master/seism_logger.py)
 
 The client is a python script running on the RaspberryPi which makes use of [obspy](https://www.obspy.org/), a framework for processing seismological data.
 
@@ -150,7 +150,7 @@ The approach in this project is to keep a rolling 2 minute average of the sample
 
 ### Server
 
-You can find the source code [here at Bitbucket](https://bitbucket.org/miksto/seismometer-app)
+You can find the source code [here at Bitbucket](https://bitbucket.org/miksto/seismometer-server-app)
 
 As for the server software I am not going to cover it in that much detail, as I do not really think it is interesing. It is hosted on a DigitalOcean droplet as docker image. And just as the RaspberryPi client, it is written in python and uses [obspy](https://www.obspy.org/) for the data processing.
 It listenes for data on a websocket, stores the data in MSEED file per day, while hourly generating and saving a plot of the last hour as an image. Finally, at the end of each day, a 24 hour plot is generated, where any major earthquake is displayed, with location and magnitude.
