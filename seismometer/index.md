@@ -29,45 +29,56 @@ In essence the seismometer consists of a magnet suspended by a spring, which wil
 
 Although the materials differ, the general construction principle of this seismometer and the TC1 seismometer are very much alike. The most notable difference being the tube, which I in an attempt to minimize RF noise, was chosen to be a metal mesh rather than an acrylic pipe. A word of advice, make sure the metal is NOT magnetic. The same thing goes for the nuts and skrews to hold the rolled net together. The metal mesh came wrapped in plastic, which I kept on in order to prevent moving air from affecting the seismometer.
 
-<<image of rolled net>>
+
+<p align="center">
+  <img src="metal_mesh.jpg" alt="Rolled metal net" width="60%">
+</p>
 
 The coils is wound with an AWG 18 wire around an empty tape role, with a large enough inner diameter for the neodymium magnets
 to pass through with some margin. The desired resistance of the coil is 700 ohms to 2000 ohms according to the TC1 webpage.
 My coil turned out a bit shy of that, with a resistance of 570 ohms, since the wire snapped while winding the coil.
 
-<<image of coil>>
-spole: vilken gauge, vilket motstånd
+<p align="center">
+  <img src="coil.jpg" alt="Coil" width="60%">
+</p>
 
 The spring consists of a plastic spring I deemed suitable, which i found at Tokyu Hands.
-The magnets are skrewed into place on a eye bolt, and hung on the spring.
+The magnets are screwed into place on a eye bolt, and hung on the spring.
 
-<<image of spring and eye bolt and magnets>>
+
+<img align="left" src="magnet.jpg" alt="magnet" width="44%">
+
+<img align="right" src="magnet_assembly.jpg" alt="magnet" width="44%">
+<br clear="all" />
+
 
 The final part of the assemly is the dampener which is required to prevent the seismometer to be overly sensitive in its resonant frequency, which is determined by the spring itself and the weight the eye bolt and the magnets.
 You want the spring, when pulled and released, to return to and just barely overshoot its resting position before coming to a rest.
-<<insert source>>
 
+
+<img align="left" src="metal_pipe.jpg" alt="Dampener pipe" width="50%">
+<img align="left" src="sketch.jpg" alt="Dampener pipe" width="25%">
+<br clear="all">
 This is accomplished by a metal pipe placed below the coil, and an extra pair of magnets that extends into the pipe.
-A high conductivity metal like copper is a good choice, but with a limited selection I went for a alumiun pipe which also
-worked great. Perhaps thanks to its slightly higher thickness. When the magnet inside the pipe moves, eddie currents generated in the pipe will create an opposing magnetic field, and thus dampening the movement.
+A high conductivity metal like copper is a good choice, but with a limited selection I went for a aluminum pipe which also
+worked great. Perhaps thanks to its slightly thicker wall. When the magnet inside the pipe moves, eddie currents generated in the pipe will create an opposing magnetic field, which in turn dampens the movement of the magnet.
+The coil is placed on a circular foam pad held into place by the friction against to wall of the rolled metal mesh. The metal pipe is held into place by two foam pads, one in each end.
 
-<<insert image of dampener>>
-
-The coil is held into position by a circular foam pad held into place by the friction against to wall of the rolled metal mesh.
-<<imager of foam pad>>
-
-The metal pipe is held into place by two foam pads, one in each end.
+<p align="center">
+  <img src="spring_paper.jpg" alt="Paper spring holder" width="60%">
+</p>
 The spring is held into place by a piece of stiff paper, and hung from the top of the metal mesh roll.
 This could certainly be improved as even a light touch easily knocks the spring and magnets out of position.
-<<insert image of paper contraption>>
 
-The connect the coil to the electric circuit a shielded stereo audio cable is used. The shielding is connected to the metal mesh itself, and the two inner cables are attached to each end of the coil. This way, the current from the coil is passed as a differential signal, with a shielding further increasing the noise immunity. When trying to use a mono stereo cable, using the single internal cable and the shielding to pass the signal the noise level became noticably higher.
+The connect the coil to the electric circuit a shielded stereo audio cable is used. The shielding is connected to the metal mesh itself, and the two inner cables are attached to each end of the coil. This way, the current from the coil is passed as a differential signal, with a shielding further increasing the noise immunity. When trying to use a mono stereo cable, using the single internal cable and the shielding to pass the signal the noise levels became noticably higher.
 
-<<insert image of coil and cable assembly>>
+<p align="center">
+  <img src="cable.jpg" alt="Paper spring holder" width="60%">
+</p>
 
 ## Electronics
 
-When designing the electronic circuit, [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was my primary source of inspiration. The final circuit does however differ quit a bit, but the working principle remains the same.
+When designing the electronic circuit, [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was my primary source of inspiration. Although the final circuit differs quit a bit the working principle remains the same.
 
 ![Circuit diagram](circuit_diagram.svg)
 _Note: While not shown in the circuit diagram, all ICs have a bypass capacitor, as well as separate power and ground leads, forming a so called star ground._
@@ -112,7 +123,7 @@ The ADC currently in use is a MCP3208, a 12 bit ADC with an SPI output for commu
 
 ### Logic Level Shifter
 
-Since the circuit is powered by 5V, and the RaspberryPi IO pins operate at 3.3V, a logic level shifter sits in between the ADC output and the RaspberryPi to translate between the two voltages.
+Since the circuit is powered by 5V and the RaspberryPi IO pins operate at 3.3V, a logic level shifter sits in between the ADC output and the RaspberryPi translating between the two voltages.
 
 ## Software
 
@@ -134,8 +145,8 @@ After the low-pass filter, the data is downsampled from the 500 samples per seco
 #### Average value and drift
 
 We want the average of the collected data points to be zero, which would be a very straight forward task, if not for the temperature offset voltage drift inherent to op-amps. As the temperature in the room varies, so will the output voltage of an op-amp.
-Therefore, to ensure that the average value stays at zero, and doesn't drift as the temperature changes, some extra measures need to be taken.
-The approach in this project is to keep a rolling 1 minute average of the sampled values, and subtract this rolling average from every sampled datapoint. Perhaps not the most elegant or sofisticated solution, but despite its simplicity it works just fine for my purposes.
+Therefore, to ensure that the average value stays at zero and doesn't drift as the temperature changes, some extra measures need to be taken.
+The approach in this project is to keep a rolling 2 minute average of the sampled values, and subtract this rolling average from every sampled datapoint. Perhaps not the most elegant or sofisticated solution, but despite its simplicity it works just fine.
 
 ### Server
 
