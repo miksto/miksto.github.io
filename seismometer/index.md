@@ -44,9 +44,9 @@ The spring consists of a plastic spring I deemed suitable, which i found at Toky
 The magnets are screwed into place on a eye bolt, and hung on the spring.
 
 
-<img align="left" src="magnet.jpg" alt="magnet" width="44%">
+<img align="left" src="magnet.jpg" alt="magnet" width="33%">
 
-<img align="right" src="magnet_assembly.jpg" alt="magnet" width="44%">
+<img align="right" src="magnet_assembly.jpg" alt="magnet" width="50%">
 <br clear="all" />
 
 
