@@ -6,10 +6,9 @@ This documentation consists of three parts
 - [The electronics](#electronics)
 - [The software](#software)
 
-After moving to Tokyo in Japan, a country with about 10 earthquakes per day, I could not help but to get interested in the topic. Keeping a close eye on the Japan Meteorological Agency's webpage (https://www.jma.go.jp/en/quake/), I made sure not to miss any earthquakes in Japan. However, most earthquakes are too distant or too weak for humans to sense them, so to know for sure if what felt like an earthquake actually was an earthquake and not just imagination, you would have to wait for that webage to get updated.
-I however, did not have the patience to wait those 5 minutes, and decided to build a seismometer to be able to collect my own data, and view it in real time.
+After moving to Tokyo in Japan, a country with about 10 earthquakes per day, I could not help but to get interested in the topic. Keeping a close eye on the Japan Meteorological Agency's webpage (https://www.jma.go.jp/en/quake/), I made sure not to miss any earthquake. However, most earthquakes are too distant or too weak for humans to feel, so whenever it felt like there was an earthquake I would check that site to know if there actually was an earthquake or if it was just imagination. The only issue was that the site "only" updated ever few minutes. Therefors I decided to build my own seismometer to be able to view data in real time.
 
-It turned out working beyond my expectations, and I became really excited when I captured an earthquake outside of cost of Australia. Since then I have even been able to capture earthquakes on the other side of the globe, but that is out of the ordinary.
+The seismometer turned out to work beyond my expectations, and I became really excited when I captured an earthquake outside the cost of Australia. Since then I have even been able to capture earthquakes on the other side of the earth.
 
 _The seismometer_
 ![Seismometer overview](seismometer_overview.jpg)
@@ -19,11 +18,10 @@ _An example of two recorded earthquakes_
 
 ## Overview of construction and software
 
-After browsing the internet for different DIY seismometers, I deciede for a vertical pendulum seismometer
-based on ease of build. Specifically [https://tc1seismometer.wordpress.com/](https://tc1seismometer.wordpress.com/) was a great resource for
-information on the construction. As for the electronics, this page [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was helpful.
+After browsing the internet for different DIY seismometers, I deciede for a vertical pendulum seismometer based on ease of build. Specifically [https://tc1seismometer.wordpress.com/](https://tc1seismometer.wordpress.com/) was a great resource for
+information on the construction. As for the electronics, this page [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was very informative.
 
-In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves relative to the coil a small current is created which by the use of an op-amp is amplified and represented as a voltage swinging from around 0V to 5V. This voltage is sampled by an ADC and a RaspberryPi at 500 Hz, and then in software passed through a low-pass filter with a cutoff frequency of about 1.4 Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 500 samples per second to a more suitable 15 samples per second and sent to a webserver that stores the data, saves plots as images, and provides an API for the web frontend.
+In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves, a small current is generated in the coil, which by the use of an op-amp is amplified and represented as a voltage ranging from around 0V to 5V. This voltage is sampled by an ADC and a RaspberryPi at 500 Hz, and then in software passed through a low-pass filter with a cutoff frequency of about 1.4 Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 500 samples per second to a more suitable 15 samples per second and sent to a webserver that stores the data, saves plots as images, and provides an API for the web frontend.
 
 ## Construction
 
