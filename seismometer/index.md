@@ -32,7 +32,7 @@ Although the materials differ, the general construction principle of this seismo
   <img src="metal_mesh.jpg" alt="Rolled metal net" width="60%">
 </p>
 
-The coils is wound with an AWG 18 wire around an empty tape role, with a large enough inner diameter for the neodymium magnets
+The coil is wound with an AWG 18 wire around an empty tape role, with a large enough inner diameter for the neodymium magnets
 to pass through with some margin. The desired resistance of the coil is 700 ohms to 2000 ohms according to the TC1 webpage.
 My coil turned out a bit shy of that, with a resistance of 570 ohms, since the wire snapped while winding the coil.
 
@@ -60,12 +60,12 @@ You want the spring, when pulled and released, to return to and just barely over
 This is accomplished by a metal pipe placed below the coil, and an extra pair of magnets that extends into the pipe.
 A high conductivity metal like copper is a good choice, but with a limited selection I went for a aluminum pipe which also
 worked great. Perhaps thanks to its slightly thicker wall. When the magnet inside the pipe moves, eddie currents generated in the pipe will create an opposing magnetic field, which in turn dampens the movement of the magnet.
-The coil is placed on a circular foam pad held into place by the friction against to wall of the rolled metal mesh. The metal pipe is held into place by two foam pads, one in each end.
+The coil is placed on a circular foam pad held in place by the friction against to wall of the rolled metal mesh. The metal pipe is held in place by two foam pads, one in each end.
 
 <p align="center">
   <img src="spring_paper.jpg" alt="Paper spring holder" width="60%">
 </p>
-The spring is held into place by a piece of stiff paper, and hung from the top of the metal mesh roll.
+The spring is held in place by a piece of stiff paper, and hung from the top of the metal mesh roll.
 This could certainly be improved as even a light touch easily knocks the spring and magnets out of position.
 
 The connect the coil to the electric circuit a shielded stereo audio cable is used. The shielding is connected to the metal mesh itself, and the two inner cables are attached to each end of the coil. This way, the current from the coil is passed as a differential signal, with a shielding further increasing the noise immunity. When trying to use a mono stereo cable, using the single internal cable and the shielding to pass the signal the noise levels became noticably higher.
