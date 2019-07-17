@@ -9,8 +9,13 @@ After moving to Tokyo I got interested in earthquakes and decided to build my ow
 [Project description](/seismometer)
 A walkthrough of the seismometer as well as the software to collect and present the data.
 
-[Seismometer web frontend](https://warm-falls-26706.herokuapp.com/)
+[Seismometer web frontend](http://seismometer.micke.stockman.se/vertical_pendulum)
 View live seismometer data and other plots from the last day.
+
+## Temperature monitoring web page
+
+A web page displaying the current temperature in my room as well as graphs with historical data from up to one year ago.
+http://temperature.micke.stockman.se/
 
 ## Stuff from the past
 

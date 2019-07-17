@@ -1,12 +1,16 @@
 # DIY Seismometer Project
 
+## The vertical pendulum seismometer
+
+The actual web page where the seismic data can be viewed: http://seismometer.micke.stockman.se/vertical_pendulum
+
 This documentation consists of three parts
 
 - [The construction of the seismometer](#construction)
 - [The electronics](#electronics)
 - [The software](#software)
 
-After moving to Tokyo in Japan, a country with about 10 earthquakes per day, I could not help but to get interested in the topic. Keeping a close eye on the Japan Meteorological Agency's webpage (https://www.jma.go.jp/en/quake/), I made sure not to miss any earthquake. However, most earthquakes are too distant or too weak for humans to feel, so whenever it felt like there was an earthquake I would check that site to know if there actually was an earthquake or if it was just imagination. The only issue was that the site "only" updated ever few minutes. Therefors I decided to build my own seismometer to be able to view data in real time.
+After moving to Tokyo in Japan, a country with up to 10 earthquakes per day, I could not help but to get interested in the topic. Keeping a close eye on the Japan Meteorological Agency's webpage (https://www.jma.go.jp/en/quake/), I made sure not to miss any earthquake. However, most earthquakes are too distant or too weak for humans to feel, so whenever I felt like there was an earthquake I would check that site to know for sure. The only issue is that the site "only" updates ever few minutes. Therefore I decided to build my own seismometer to be able to capture and view data in real time.
 
 The seismometer turned out to work beyond my expectations, and I became really excited when I captured an earthquake outside the cost of Australia. Since then I have even been able to capture earthquakes on the other side of the earth.
 
@@ -21,7 +25,7 @@ _An example of two recorded earthquakes_
 After browsing the internet for different DIY seismometers, I deciede for a vertical pendulum seismometer based on ease of build. Specifically [https://tc1seismometer.wordpress.com/](https://tc1seismometer.wordpress.com/) was a great resource for
 information on the construction. As for the electronics, this page [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was very informative.
 
-In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves, a small current is generated in the coil, which by the use of an op-amp is amplified and represented as a voltage ranging from around 0V to 5V. This voltage is sampled by an ADC and a RaspberryPi at 500 Hz, and then in software passed through a low-pass filter with a cutoff frequency of about 1.4 Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 500 samples per second to a more suitable 15 samples per second and sent to a webserver that stores the data, saves plots as images, and provides an API for the web frontend.
+In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves, a small current is generated in the coil, which by the use of an op-amp is amplified and represented as a voltage ranging from around 0V to 5V. This voltage is sampled by an ADC and a RaspberryPi at 750 Hz, and then in software passed through a low-pass filter with a cutoff frequency of about 1.4 Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 750 samples per second to a more suitable 15 samples per second and sent to a webserver that stores the data, saves plots as images, and provides an API for the web frontend.
 
 ## Construction
 
@@ -112,8 +116,8 @@ An analog low-pass filter is still desirable though, and the reason is [aliasing
 An effective solution is therfore to combine oversampling with a low-pass filter, a so called [anti-aliasing filter](https://en.wikipedia.org/wiki/Anti-aliasing_filter). By oversampling the signal, the cutoff frequency of the anti-aliasing filter can be moved to a higher, more suitable frequency, and the damands of the filter are relaxed. Once the filtered signal is sampled, we can apply the digital low pass filter, and then dowsample the signal to a rate suitable for our 1 Hz seismometer signal. A final sample rate of about 10 times the frequency of the signal of interest will do fine.
 
 >Current setup:
->The ADC is sampled at 500 Hz, and a 4 pole sallen-key low-pass filter with a cutoff frequency of about 106 Hz is used.
->With a nyqvist frequency of 250 Hz, the filter has a 250-106=144 Hz transition band to remove frequencies that would cause aliasing.
+>The ADC is sampled at 750 Hz, and a 4 pole sallen-key low-pass filter with a cutoff frequency of about 106 Hz is used.
+>With a nyqvist frequency of 375 Hz, the filter has a 375-106=269 Hz transition band to remove frequencies that would cause aliasing.
 
 ### Analog to Digital Converter (ADC)
 
@@ -133,12 +137,12 @@ The software consists of three pieces.
 
 ### Client
 
-You can find the source code of the script [here at Bitbucket](https://bitbucket.org/miksto/seismometer-server-app/src/master/seism_logger.py)
+You can find the source code of the script [here at GitHub](https://github.com/miksto/seismograph-backend/blob/master/seism_logger.py)
 
 The client is a python script running on the RaspberryPi which makes use of [obspy](https://www.obspy.org/), a framework for processing seismological data.
 
-The script collects 10 seconds worth of data with a sample rate of 500 samples per second. The data is then passed through digital filter with a cutoff frequency of 1.4 Hz.
-After the low-pass filter, the data is downsampled from the 500 samples per second to 15 samples per second. As the final step the data points are rounded to integers, and sent via a websocket to the server.
+The script collects 10 seconds worth of data with a sample rate of 750 samples per second. The data is then passed through digital filter with a cutoff frequency of 1.4 Hz.
+After the low-pass filter, the data is downsampled from the 750 samples per second to 15 samples per second. As the final step the data points are rounded to integers, and sent via a websocket to the server.
 
 #### Average value and drift
 
@@ -148,15 +152,15 @@ The approach in this project is to keep a rolling 2 minute average of the sample
 
 ### Server
 
-You can find the source code [here at Bitbucket](https://bitbucket.org/miksto/seismometer-server-app)
+You can find the source code [here at GitHub](https://github.com/miksto/seismograph-backend)
 
 As for the server software I am not going to cover it in that much detail, as I do not really think it is interesing. It is hosted on a DigitalOcean droplet as docker image. And just as the RaspberryPi client, it is written in python and uses [obspy](https://www.obspy.org/) for the data processing.
-It listenes for data on a websocket, stores the data in MSEED file per day, while hourly generating and saving a plot of the last hour as an image. Finally, at the end of each day, a 24 hour plot is generated, where any major earthquake is displayed, with location and magnitude.
-The websocket does not only receive data, but also broadcasts it to anyone listening to it. This is used by the web frontend to show the most recent data received by the server.
+It listenes for data on a websocket, stores the data in an MSEED file per day, while hourly generating and saving a plot of the last hour as an image. Finally, at the end of each day a 24 hour plot is generated, where any major earthquake is displayed with location and magnitude printed.
+The websocket does not only receive data, but also broadcasts it to any listening clien. This is used by the web frontend to update the graph as soon as data is received by the server.
 
 ### Web App
 
-You can find the source code [here at Bitbucket](https://bitbucket.org/miksto/seismometer-web-client)
+You can find the source code [here at GitHub](https://github.com/miksto/seismograph-web-frontend)
 
 Just like the server application, I do not think an in depth explanation going to be all that useful. For anyone interested in the details there is the source code.
 The web app is a node application powerd by reactJS, and hosted
