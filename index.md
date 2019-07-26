@@ -15,7 +15,7 @@ View live seismometer data and other plots from the last day.
 ## Temperature monitoring web page
 
 A web page displaying the current temperature in my room as well as graphs with historical data from up to one year ago.
-http://temperature.micke.stockman.se/
+[http://temperature.micke.stockman.se/](http://temperature.micke.stockman.se/)
 
 ## Stuff from the past
 
