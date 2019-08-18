@@ -2,7 +2,7 @@
 
 ## The vertical pendulum seismometer
 
-The actual web page where the seismic data can be viewed: http://seismometer.micke.stockman.se/vertical_pendulum
+The actual web page where the seismic data can be viewed: [http://seismometer.micke.stockman.se/vertical_pendulum](http://seismometer.micke.stockman.se/vertical_pendulum)
 
 This documentation consists of three parts
 
