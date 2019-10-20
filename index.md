@@ -21,4 +21,4 @@ A web page displaying the current temperature in my room as well as graphs with 
 
 [Family home page](/family-page) created at around age 10.
 
-[Another random web page](/derp-page) I created as a child. Beware of many popups and and other "fun" stuff.
+[Another random web page](/derp-page) I created as a child. Beware of many popups and other "fun" stuff.
