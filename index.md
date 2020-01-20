@@ -12,6 +12,10 @@ A walkthrough of the seismometer as well as the software to collect and present 
 [Seismometer web frontend](http://seismometer.micke.stockman.se/vertical_pendulum)
 View live seismometer data and other plots from the last day.
 
+## Bluetooth controlled LED lamp
+A LED lamp controlled via an Android app over BLE.
+[Project description](/led-lamp)
+
 ## Temperature monitoring web page
 
 A web page displaying the current temperature in my room as well as graphs with historical data from up to one year ago.
