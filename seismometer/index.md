@@ -84,7 +84,7 @@ The connect the coil to the electric circuit a shielded stereo audio cable is us
 
 When designing the electronic circuit, [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was my primary source of inspiration. Although the final circuit differs quit a bit the working principle remains the same.
 
-![Circuit diagram](circuit_diagram.svg)
+![Circuit diagram](circuit_diagram.png)
 _Note: While not shown in the circuit diagram, all ICs have a bypass capacitor, as well as separate power and ground leads, forming a so called star ground._
 
 ## Power supply
