@@ -1,4 +1,4 @@
-# Bluetooth controleld LED lamp
+# Bluetooth controled LED lamp
 
 ## Features
 
