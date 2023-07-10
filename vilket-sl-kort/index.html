@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="normalize.css" />
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Billigaste SL-kortet</title>
+</head>
+
+<body>
+  <div class="container">
+    <section class="header">
+      <div class="white-overlay"></div>
+      <div class="title-container">
+        <h1 class="title">Hitta billigaste SL-kortet</h1>
+      </div>
+    </section>
+    <section class="content">
+      <div class="canvas">
+        <h1 class="content-title">Alla biljetter</h1>
+        <table id="ticketsTable">
+          <thead>
+            <tr>
+              <th>Biljett</th>
+              <th class="sized-table-column">Vuxen</th>
+              <th class="sized-table-column">Rabatterad</th>
+              <th class="sized-table-column">Motsvarande antal enkelbiljetter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Table rows will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+      <div class="canvas">
+        <h1 class="content-title">Hitta bästa biljetterna för dig</h1>
+        <div id="calculator">
+
+          <div class="row">
+            <div class="column">
+              <p>Hur lång period behöver du biljetter för?</p>
+              <div class="calculator_input_item">
+                <input type="number" id="nrDaysInput" class="calculator_input_item_field" value="7" min="1" /> dagar
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <p>Hur många resor kommer du att göra?</p>
+          </div>
+
+          <div class="row">
+            <div class="column">
+
+              <div class="calculator_input_item">
+                <input type="number" id="travelsPerDayInput" class="calculator_input_item_field" value="2" min="1" />
+                <span>resor per dag,</span>
+              </div>
+            </div>
+
+            <div class="calculator_input_item">
+              <span>eller totalt</span>
+              <input type="number" id="totalTravelsCount" class="calculator_input_item_field" value="14" min="1" />
+              <span>resor.</span>
+            </div>
+          </div>
+        </div>
+
+
+        <table id="calculatorResultTable">
+          <thead>
+            <tr>
+              <th>Biljett</th>
+              <th class="sized-table-column">Kostnad vuxen</th>
+              <th class="sized-table-column">Kostnad rabatterad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Table rows will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+  </div>
+  </section>
+  </div>
+  <script src="tickets.js"></script>
+</body>
+
+</html>
