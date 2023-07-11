@@ -1,46 +1,46 @@
 let singleTicket = {
     "title": "Enkelbiljett 75 minuter",
-    "price_full": 39,
-    "price_reduced": 26,
+    "priceFull": 39,
+    "priceReduced": 26,
     "days": null
 }
 
 let dayTicket = {
     "title": "24-timmarsbiljett",
-    "price_full": 165,
-    "price_reduced": 110,
+    "priceFull": 165,
+    "priceReduced": 110,
     "days": 1
 }
 
 let tickets = [
     {
         "title": "Årsbiljett",
-        "price_full": 10190,
-        "price_reduced": 6830,
+        "priceFull": 10190,
+        "priceReduced": 6830,
         "days": 365
     },
     {
-        "title": "90-dagarsbiljett",
-        "price_full": 2810,
-        "price_reduced": 1880,
+        "title": "90&#8209;dagarsbiljett",
+        "priceFull": 2810,
+        "priceReduced": 1880,
         "days": 90
     },
     {
-        "title": "30-dagarsbiljett",
-        "price_full": 970,
-        "price_reduced": 650,
+        "title": "30&#8209;dagarsbiljett",
+        "priceFull": 970,
+        "priceReduced": 650,
         "days": 30
     },
     {
-        "title": "7-dagarsbiljett",
-        "price_full": 440,
-        "price_reduced": 290,
+        "title": "7&#8209;dagarsbiljett",
+        "priceFull": 440,
+        "priceReduced": 290,
         "days": 7
     },
     {
-        "title": "72-timmarsbiljett",
-        "price_full": 330,
-        "price_reduced": 220,
+        "title": "72&#8209;timmarsbiljett",
+        "priceFull": 330,
+        "priceReduced": 220,
         "days": 3
     },
     dayTicket,
@@ -52,7 +52,6 @@ $(document).ready(function () {
     populateTicketsTable()
     updateCalculations()
 })
-
 
 $('#nrDaysInput').on('input', function () {
     let nrOfDays = $("#nrDaysInput").val()
@@ -77,16 +76,45 @@ $('#totalTravelsCount').on('input', function () {
 });
 
 
-function populateTicketsTable() {
-    $.each(tickets, function (index, ticket) {
-        let row = $('<tr>');
-        row.append($('<td>').text(ticket.title));
+$('#button-show-remaining-options').on('click', function () {
+    $('#remaining-options').animate({ height: "toggle" }, 200, () => {
+        let isVisible = $('#remaining-options').is(":visible")
+        if (isVisible) {
+            $('#button-show-remaining-options').text("Dölj fler alternativ")
+        } else {
+            $('#button-show-remaining-options').text("Visa fler alternativ")
+        }
+    });
+})
 
-        row.append($('<td class="sized-table-column">').text(formatPrice(ticket.price_full)));
-        row.append($('<td class="sized-table-column">').text(formatPrice(ticket.price_reduced)));
-        row.append($('<td class="sized-table-column">').text((ticket.price_full / singleTicket.price_full).toFixed(1) + " st"));
+
+function populateTicketsTable() {
+    $('#ticketsTable tbody tr').remove()
+    tickets.forEach(ticket => {
+        let row = $('<tr>');
+        row.append($('<td>').html(ticket.title));
+
+        row.append($('<td class="sized-table-column">').text(formatPrice(ticket.priceFull)));
+        row.append($('<td class="sized-table-column">').text(formatPrice(ticket.priceReduced)));
         $('#ticketsTable').append(row);
     });
+}
+
+function formatEdgeDescrition(edge, isFirstLine, hasMultipleLines) {
+    if (!hasMultipleLines) {
+        return `<span>${edge.count} st ${edge.ticket.title}</span>`
+    } else if (isFirstLine) {
+        return `<div><span class="edge-description-first-line">${edge.count} st ${edge.ticket.title}</span></div>`
+    } else {
+        return `<div><span class="edge-plus-container">+</span><span>${edge.count} st ${edge.ticket.title}</span></div>`
+    }
+}
+
+function formatOptionDescrition(option) {
+    let cheapestOptionDescription = option.edges
+        .map((edge, index) => formatEdgeDescrition(edge, index == 0, option.edges.length > 1))
+        .join('')
+    return cheapestOptionDescription
 }
 
 function updateCalculations() {
@@ -97,47 +125,19 @@ function updateCalculations() {
     let allOptions = calculateBestOption(nrOfDays, totalTravelsCount)
 
     $('#calculatorResultTable tbody tr').remove()
+    let cheapestOption = allOptions.shift()
+    $('#best-option-ticket-desciption').html(`${formatOptionDescrition(cheapestOption)}`)
+    $('#best-option-ticket-total-cost-full').html(formatPrice(cheapestOption.totalCostFull))
+    $('#best-option-ticket-total-cost-reduced').html(formatPrice(cheapestOption.totalCostReduced))
 
     allOptions.forEach(option => {
         let row = $('<tr>');
-        let optionDescription = option.edges.map(edge => `${edge.count} st ${edge.ticket.title}`).join("\n")
-
-        row.append($('<td class="optionDescription">').text(optionDescription));
+        row.append($('<td class="optionDescription">').html(formatOptionDescrition(option)));
         row.append($('<td class="sized-table-column">').text(formatPrice(option.totalCostFull)));
         row.append($('<td class="sized-table-column">').text(formatPrice(option.totalCostReduced)));
 
         $('#calculatorResultTable').append(row);
     })
-}
-
-function calculateBasicOptions(nrOfDays, travelsPerDay) {
-    let totalTravelsCount = nrOfDays * travelsPerDay
-
-    let result = []
-    tickets.filter(ticket => ticket != singleTicket).forEach(ticket => {
-        let requiredTickets = Math.ceil(nrOfDays / ticket.days)
-        let totalCostFull = Math.ceil(requiredTickets) * ticket.price_full
-        let totalCostReduced = Math.ceil(requiredTickets) * ticket.price_reduced
-
-        result.push({
-            "ticket": ticket,
-            "number_of_tickets": requiredTickets,
-            "total_cost_full": totalCostFull,
-            "total_cost_reduced": totalCostReduced
-        })
-    })
-    result.push({
-        "ticket": singleTicket,
-        "number_of_tickets": totalTravelsCount,
-        "total_cost_full": totalTravelsCount * singleTicket.price_full,
-        "total_cost_reduced": totalTravelsCount * singleTicket.price_reduced,
-    })
-
-    // sort by value
-    result.sort(function (a, b) {
-        return a.total_cost_full - b.total_cost_full;
-    });
-    return result
 }
 
 function calculateBestOption(nrOfDays, totalTravelsCount) {
@@ -146,8 +146,8 @@ function calculateBestOption(nrOfDays, totalTravelsCount) {
     let allOptions = createOptionsForNode([], [...tickets], totalTravelsCount, travelsPerDay, nrOfDays)
 
     // Filter out all stupid options
-    let priceIfOnlySingleTickets = nrOfDays * travelsPerDay * singleTicket.price_full
-    let dayTicketWorthIt = travelsPerDay * singleTicket.price_full > dayTicket.price_full
+    let priceIfOnlySingleTickets = nrOfDays * travelsPerDay * singleTicket.priceFull
+    let dayTicketWorthIt = travelsPerDay * singleTicket.priceFull > dayTicket.priceFull
 
     let filteredOptions = allOptions
         .filter(option => {
@@ -194,8 +194,8 @@ function createOptionsForNode(traversedEdges, remainingTicketTypes, totalTravels
         let totalCostFull = 0
         let totalCostReduced = 0
         traversedEdges.forEach(edge => {
-            totalCostFull += edge.count * edge.ticket.price_full
-            totalCostReduced += edge.count * edge.ticket.price_reduced
+            totalCostFull += edge.count * edge.ticket.priceFull
+            totalCostReduced += edge.count * edge.ticket.priceReduced
         })
         return [{
             edges: traversedEdges,

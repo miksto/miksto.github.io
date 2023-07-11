@@ -13,78 +13,138 @@
 <body>
   <div class="container">
     <section class="header">
-      <div class="white-overlay"></div>
       <div class="title-container">
         <h1 class="title">Hitta billigaste SL-kortet</h1>
       </div>
     </section>
     <section class="content">
       <div class="canvas">
-        <h1 class="content-title">Alla biljetter</h1>
-        <table id="ticketsTable">
+
+        <div class="horizontal-padding">
+          <h1>Hitta bästa biljetterna för dig</h1>
+          <div id="calculator">
+
+            <div class="row">
+              <p>Hur lång period behöver du biljetter för?</p>
+            </div>
+            <div class="row">
+              <div class="calculator_input_item">
+                <input type="number" id="nrDaysInput" class="calculator_input_item_field" value="7" min="1" /> dagar
+              </div>
+            </div>
+            <div class="row">
+              <p>Hur många enkelresor kommer du att göra?</p>
+            </div>
+
+            <div class="row">
+              <div class="calculator_input_item">
+                <input type="number" id="travelsPerDayInput" class="calculator_input_item_field" value="2" min="1" />
+                <span>enkelresor per dag, eller</span>
+              </div>
+
+              <div class="calculator_input_item">
+                <input type="number" id="totalTravelsCount" class="calculator_input_item_field" value="14" min="1" />
+                <span>enkelresor totalt.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <div id="best-option">
+            <div id="best-option-title">Billigaste alternativet:</div>
+            <div class="horizontal-padding">
+              <p id="best-option-ticket-desciption"></p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td> Total kostnad vuxen: </td>
+                    <td id="best-option-ticket-total-cost-full"> Total kostnad vuxen: </td>
+                  </tr>
+                  <tr>
+                    <td> Total kostnad rabatterad: </td>
+                    <td id="best-option-ticket-total-cost-reduced"> Total kostnad vuxen: </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <button id="button-show-remaining-options">Visa fler alternativ</button>
+        </div>
+
+        <div id="remaining-options">
+          <h3 class="horizontal-padding">Övriga alternativ</h3>
+          <table id="calculatorResultTable" class="tickets-list">
+            <thead>
+              <tr>
+                <th>Biljett</th>
+                <th class="sized-table-column">Kostnad vuxen</th>
+                <th class="sized-table-column">Kostnad rabatterad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Table rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="canvas">
+        <div class="horizontal-padding">
+          <h1>Alla biljett-typer</h1>
+        </div>
+
+        <table id="ticketsTable" class="tickets-list">
           <thead>
             <tr>
               <th>Biljett</th>
               <th class="sized-table-column">Vuxen</th>
               <th class="sized-table-column">Rabatterad</th>
-              <th class="sized-table-column">Motsvarande antal enkelbiljetter</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Table rows will be dynamically added here -->
-          </tbody>
-        </table>
-      </div>
-      <div class="canvas">
-        <h1 class="content-title">Hitta bästa biljetterna för dig</h1>
-        <div id="calculator">
-
-          <div class="row">
-            <div class="column">
-              <p>Hur lång period behöver du biljetter för?</p>
-              <div class="calculator_input_item">
-                <input type="number" id="nrDaysInput" class="calculator_input_item_field" value="7" min="1" /> dagar
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <p>Hur många resor kommer du att göra?</p>
-          </div>
-
-          <div class="row">
-            <div class="column">
-
-              <div class="calculator_input_item">
-                <input type="number" id="travelsPerDayInput" class="calculator_input_item_field" value="2" min="1" />
-                <span>resor per dag,</span>
-              </div>
-            </div>
-
-            <div class="calculator_input_item">
-              <span>eller totalt</span>
-              <input type="number" id="totalTravelsCount" class="calculator_input_item_field" value="14" min="1" />
-              <span>resor.</span>
-            </div>
-          </div>
-        </div>
-
-
-        <table id="calculatorResultTable">
-          <thead>
             <tr>
-              <th>Biljett</th>
-              <th class="sized-table-column">Kostnad vuxen</th>
-              <th class="sized-table-column">Kostnad rabatterad</th>
+              <td>Enkelbiljett 75 minuter</td>
+              <td class="sized-table-column">39,00&nbsp;kr</td>
+              <td class="sized-table-column">26,00&nbsp;kr</td>
             </tr>
-          </thead>
-          <tbody>
-            <!-- Table rows will be dynamically added here -->
+            <tr>
+              <td>24-timmarsbiljett</td>
+              <td class="sized-table-column">165,00&nbsp;kr</td>
+              <td class="sized-table-column">110,00&nbsp;kr</td>
+            </tr>
+            <tr>
+              <td>72‑timmarsbiljett</td>
+              <td class="sized-table-column">330,00&nbsp;kr</td>
+              <td class="sized-table-column">220,00&nbsp;kr</td>
+            </tr>
+            <tr>
+              <td>7‑dagarsbiljett</td>
+              <td class="sized-table-column">440,00&nbsp;kr</td>
+              <td class="sized-table-column">290,00&nbsp;kr</td>
+            </tr>
+            <tr>
+              <td>30‑dagarsbiljett</td>
+              <td class="sized-table-column">970,00&nbsp;kr</td>
+              <td class="sized-table-column">650,00&nbsp;kr</td>
+            </tr>
+            <tr>
+              <td>90‑dagarsbiljett</td>
+              <td class="sized-table-column">2&nbsp;810,00&nbsp;kr</td>
+              <td class="sized-table-column">1&nbsp;880,00&nbsp;kr</td>
+            </tr>
+            <tr>
+              <td>Årsbiljett</td>
+              <td class="sized-table-column">10&nbsp;190,00&nbsp;kr</td>
+              <td class="sized-table-column">6&nbsp;830,00&nbsp;kr</td>
+            </tr>
           </tbody>
         </table>
+        <p class="note horizontal-padding">Ovan lista på biljetter är inte komplett. För en fullständing lista på
+          biljetter se: <a
+            href="https://sl.se/biljetter/sortiment-och-regler">https://sl.se/biljetter/sortiment-och-regler</a></p>
       </div>
-  </div>
-  </section>
+    </section>
   </div>
   <script src="tickets.js"></script>
 </body>
