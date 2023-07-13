@@ -43,15 +43,57 @@ let tickets = [
         priceReduced: 220,
         days: 3
     },
-    dayTicket,
-    singleTicket,
+    dayTicket
 ]
-tickets.sort((a, b) => a.days - b.days)
 
 $(document).ready(function () {
     populateTicketsTable()
     updateCalculations()
+    setupListeners()
 })
+
+function setupListeners() {
+    $('#nrDaysInput').on('input', function () {
+        let nrOfDays = getNumberOfDays()
+        let travelsPerDay = getTravelsPerDay()
+        if (nrOfDays > 0 && travelsPerDay > 0) {
+            $('#totalTravelsCount').prop('value', nrOfDays * travelsPerDay)
+            updateCalculations()
+        }
+    });
+
+    $('#travelsPerDayInput').on('input', function () {
+        let nrOfDays = getNumberOfDays()
+        let travelsPerDay = getTravelsPerDay()
+        if (nrOfDays > 0 && travelsPerDay > 0) {
+            $('#totalTravelsCount').prop('value', nrOfDays * travelsPerDay)
+            updateCalculations()
+        }
+    });
+
+    $('#totalTravelsCount').on('input', function () {
+        let nrOfDays = getNumberOfDays()
+        let totalTravels = getTotalTravelsCount()
+
+        if (nrOfDays > 0 && totalTravels > 0) {
+            let travelsPerDay = (totalTravels / nrOfDays).toFixed(1)
+            $('#travelsPerDayInput').prop('value', travelsPerDay)
+            updateCalculations()
+        }
+    });
+
+
+    $('#button-show-remaining-options').on('click', function () {
+        $('#remaining-options').animate({ height: "toggle" }, 200, () => {
+            let isVisible = $('#remaining-options').is(":visible")
+            if (isVisible) {
+                $('#button-show-remaining-options').text("Dölj fler alternativ")
+            } else {
+                $('#button-show-remaining-options').text("Visa fler alternativ")
+            }
+        });
+    })
+}
 
 function getNumberOfDays() {
     return parseInt($("#nrDaysInput").val())
@@ -65,48 +107,6 @@ function getTotalTravelsCount() {
     return parseInt($("#totalTravelsCount").val())
 }
 
-$('#nrDaysInput').on('input', function () {
-    let nrOfDays = getNumberOfDays()
-    let travelsPerDay = getTravelsPerDay()
-    if (nrOfDays > 0 && travelsPerDay > 0) {
-        $('#totalTravelsCount').prop('value', nrOfDays * travelsPerDay)
-        updateCalculations()
-    }
-});
-
-$('#travelsPerDayInput').on('input', function () {
-    let nrOfDays = getNumberOfDays()
-    let travelsPerDay = getTravelsPerDay()
-    if (nrOfDays > 0 && travelsPerDay > 0) {
-        $('#totalTravelsCount').prop('value', nrOfDays * travelsPerDay)
-        updateCalculations()
-    }
-});
-
-$('#totalTravelsCount').on('input', function () {
-    let nrOfDays = getNumberOfDays()
-    let totalTravels = getTotalTravelsCount()
-
-    if (nrOfDays > 0 && totalTravels > 0) {
-        let travelsPerDay = (totalTravels / nrOfDays).toFixed(1)
-        $('#travelsPerDayInput').prop('value', travelsPerDay)
-        updateCalculations()
-    }
-});
-
-
-$('#button-show-remaining-options').on('click', function () {
-    $('#remaining-options').animate({ height: "toggle" }, 200, () => {
-        let isVisible = $('#remaining-options').is(":visible")
-        if (isVisible) {
-            $('#button-show-remaining-options').text("Dölj fler alternativ")
-        } else {
-            $('#button-show-remaining-options').text("Visa fler alternativ")
-        }
-    });
-})
-
-
 function populateTicketsTable() {
     $('#ticketsTable tbody tr').remove()
     tickets.forEach(ticket => {
@@ -119,8 +119,8 @@ function populateTicketsTable() {
     });
 }
 
-function formatEdgeDescrition(edge, isFirstLine, hasMultipleLines) {
-    if (!hasMultipleLines) {
+function formatEdgeDescription(edge, isFirstLine, isMultiTicketSolution) {
+    if (!isMultiTicketSolution) {
         return `<span>${edge.count} st ${edge.ticket.title}</span>`
     } else if (isFirstLine) {
         return `<div><span class="edge-description-first-line">${edge.count} st ${edge.ticket.title}</span></div>`
@@ -130,9 +130,12 @@ function formatEdgeDescrition(edge, isFirstLine, hasMultipleLines) {
 }
 
 function formatOptionDescription(option) {
-    let cheapestOptionDescription = option.edges
-        .map((edge, index) => formatEdgeDescrition(edge, index == 0, option.edges.length > 1))
+    let isMultiTicketSolution = option.tickets.length > 1
+
+    let cheapestOptionDescription = option.tickets
+        .map((ticket, index) => formatEdgeDescription(ticket, index == 0, isMultiTicketSolution))
         .join('')
+
     return cheapestOptionDescription
 }
 
@@ -141,7 +144,8 @@ function updateCalculations() {
     let totalTravelsCount = getTotalTravelsCount()
 
     if (nrOfDays > 0 && totalTravelsCount > 0) {
-        let allOptions = calculateBestOption(nrOfDays, totalTravelsCount)
+        //let allOptions = calculateBestOption(nrOfDays, totalTravelsCount)
+        let allOptions = iter_calculateBestOption(nrOfDays, totalTravelsCount)
         displayOptions(allOptions)
     }
 }
@@ -165,114 +169,153 @@ function displayOptions(options) {
     })
 }
 
-function calculateBestOption(nrOfDays, totalTravelsCount) {
+
+function iter_calculateBestOption(nrOfDays, totalTravelsCount) {
     let travelsPerDay = totalTravelsCount / nrOfDays
-    let dayTicketWorthIt = travelsPerDay * singleTicket.priceFull > dayTicket.priceFull
-    let filteredTickets = tickets.filter(ticket => ticket != dayTicket || dayTicketWorthIt)
+    let periodTickets = tickets
+        //.filter(ticket => ticket.priceFull / ticket.days <= travelsPerDay * singleTicket.priceFull)
+        .sort((a, b) => b.days - a.days)
 
-    let rootEdge = {
-        ticket: null,
-        count: 0,
-        days: 0,
-        remainingTickets: filteredTickets,
-    }
+    let solutions = periodTickets.flatMap(periodTicket => {
+        console.log("------------------------------------------------")
+        let ticketsSubsetForSolution = periodTickets.filter(it => it.days <= periodTicket.days)
+        let isComplexSolutionsAllowed = periodTicket.days < nrOfDays && (periodTicket.days >= 30 || nrOfDays <= 30)
 
-    return createOptionsForNode([rootEdge], totalTravelsCount, travelsPerDay, nrOfDays)
-}
-
-function createOptionsForNode(traversedEdges, totalTravelsCount, travelsPerDay, daysLeft) {
-
-    if (daysLeft <= 0) {
-        // We have found a solution
-        let totalCostFull = 0
-        let totalCostReduced = 0
-        let edgesWithoutRootNode = traversedEdges.slice(1, traversedEdges.length)
-        edgesWithoutRootNode.forEach(edge => {
-            totalCostFull += edge.count * edge.ticket.priceFull
-            totalCostReduced += edge.count * edge.ticket.priceReduced
-        })
-        return [{
-            edges: edgesWithoutRootNode,
-            totalCostFull: totalCostFull,
-            totalCostReduced: totalCostReduced,
-        }]
-    }
-
-    let options = []
-    let edgesToExplore = generateEdgesForNode(traversedEdges, travelsPerDay, daysLeft)
-    // Om man har tagit en väg men en mindre storlek som inte överflödar, då får man bara använda singleTickets
-    edgesToExplore.forEach(edge => {
-        let newDaysLeft = daysLeft - edge.days
-
-        let newOptions = createOptionsForNode([...traversedEdges, edge], totalTravelsCount, travelsPerDay, newDaysLeft)
-        options.push(...newOptions)
+        return iter_generateSolutionsForRootNode(ticketsSubsetForSolution, isComplexSolutionsAllowed, nrOfDays, travelsPerDay)
     })
 
-    return options
+    // Always add a solution with only single tickets
+    solutions.push(
+        createSolutionForTicketsList(
+            [{
+                ticket: singleTicket,
+                count: totalTravelsCount
+            }]
+        )
+    )
+
+    return solutions
 }
 
-function generateEdgesForNode(traversedEdges, travelsPerDay, daysLeft) {
-    let edges = []
-    let largestTicketThatFitsDaysLeft = null
 
-    let currentEdge = traversedEdges[traversedEdges.length - 1]
-    let remainingTickets = currentEdge.remainingTickets
+function createSolutionForTicketsList(tickets) {
+    let totalCostFull = 0
+    let totalCostReduced = 0
 
-    remainingTickets
-        .filter(ticket => ticket != singleTicket)
-        .forEach(ticket => {
-            if (largestTicketThatFitsDaysLeft == null
-                || (ticket.days > largestTicketThatFitsDaysLeft.days && ticket.days <= daysLeft)) {
-                largestTicketThatFitsDaysLeft = ticket
-            }
-        })
+    tickets.forEach(ticket => {
 
+        totalCostFull += ticket.count * ticket.ticket.priceFull
+        totalCostReduced += ticket.count * ticket.ticket.priceReduced
+    })
 
-    remainingTickets
-        .filter(ticket => ticket != singleTicket)
-        .forEach(ticket => {
-            let maxTicketCountWithNoOverflow = Math.floor(daysLeft / ticket.days)
-
-            if (maxTicketCountWithNoOverflow > 0) {
-                let days = ticket.days * maxTicketCountWithNoOverflow
-                let newRemainingTickets = null
-
-                if (ticket.days < largestTicketThatFitsDaysLeft.days) {
-                    newRemainingTickets = remainingTickets.filter(ticket => ticket == singleTicket)
-                } else {
-                    newRemainingTickets = remainingTickets.filter(ticket => ticket.days < days)
-                }
-
-                edges.push({
-                    ticket: ticket,
-                    count: maxTicketCountWithNoOverflow,
-                    days: days,
-                    remainingTickets: newRemainingTickets
-                })
-            }
-
-            // Add the last one that exceeds the required nr of days unless it's a 24h ticket
-            if (ticket != dayTicket && daysLeft % ticket.days != 0) {
-                let days = ticket.days * (maxTicketCountWithNoOverflow + 1)
-                edges.push({
-                    ticket: ticket,
-                    count: maxTicketCountWithNoOverflow + 1,
-                    days: days,
-                    remainingTickets: remainingTickets.filter(ticket => ticket.days < days)
-                })
-            }
-        })
-
-    if (remainingTickets.includes(singleTicket)) {
-        edges.push({
-            ticket: singleTicket,
-            count: Math.ceil(daysLeft * travelsPerDay),
-            days: daysLeft,
-            remainingTickets: []
-        })
+    return {
+        tickets: tickets,
+        totalCostFull: totalCostFull,
+        totalCostReduced: totalCostReduced,
     }
+}
 
-    return edges
+function iter_generateSolutionsForRootNode(periodTickets, isComplexSolutionsAllowed, nrOfDays, travelsPerDay) {
+    let solutions = []
+    let daysLeft = nrOfDays
+    let currentSolutionTickets = []
+
+    for (let ticket of periodTickets) {
+        if (daysLeft <= 0) {
+            break;
+        }
+
+        if (ticket.days <= daysLeft) {
+            // At least one ticket fits within the days left
+            console.log(ticket.title + " fits")
+            if (daysLeft % ticket.days != 0) {
+                console.log(ticket.title + " is not a perfect match")
+                // Not a perfect match.
+
+                let ticketCount = Math.floor(daysLeft / ticket.days)
+                console.log(ticket.title + " should be added with count: " + ticketCount)
+
+                // Also add an overflowing solution using this ticket
+                console.log(ticket.title + "added as solution for over flow with count: " + ticketCount)
+                solutions.push(
+                    createSolutionForTicketsList(
+                        [
+                            ...currentSolutionTickets,
+                            {
+                                ticket: ticket,
+                                count: ticketCount + 1,
+                            }
+                        ]
+                    )
+                )
+                console.log("isComplexSolutionsAllowed: " + isComplexSolutionsAllowed)
+                console.log("currentSolutionTickets.length: " + currentSolutionTickets.length)
+                let shouldAbort = currentSolutionTickets.length == 0 && !isComplexSolutionsAllowed
+                currentSolutionTickets.push(
+                    {
+                        ticket: ticket,
+                        count: ticketCount
+                    }
+                )
+                daysLeft -= ticketCount * ticket.days
+
+                // Create a single ticket padded solution unless root level
+                console.log("pushing single ticket solutions with count: " + (daysLeft * travelsPerDay))
+                solutions.push(
+                    createSolutionForTicketsList(
+                        [
+                            ...currentSolutionTickets,
+                            {
+                                ticket: singleTicket,
+                                count: daysLeft * travelsPerDay,
+                            }
+                        ]
+                    )
+                )
+
+                if (shouldAbort) {
+                    console.log("root level and not isComplexSolutionsAllowed. Aborting.")
+                    break
+                }
+            } else {
+                // there was a perfect match.
+                console.log(ticket.title + " is a PERFECT match. pushing solution")
+                solutions.push(
+                    createSolutionForTicketsList(
+                        [
+                            ...currentSolutionTickets,
+                            {
+                                ticket: ticket,
+                                count: daysLeft / ticket.days
+                            }
+                        ]
+                    )
+                )
+                // Abort since we found a perfect match
+                break;
+            }
+        } else {
+            // The ticket dos not fit within the days left. Create an overflowing solution
+            console.log(ticket.title + " does not fit for days: " + daysLeft)
+            console.log("Adding solution with count 1 for ticket: " + ticket.title)
+            solutions.push(
+                createSolutionForTicketsList(
+                    [
+                        ...currentSolutionTickets,
+                        {
+                            ticket: ticket,
+                            count: 1,
+                        }
+                    ]
+                )
+            )
+            // If root level and overflow, abort
+            if (currentSolutionTickets.length == 0) {
+                break
+            }
+        }
+    }
+    return solutions
 }
 
 let currencyFormatter = new Intl.NumberFormat('sv-SE', {
