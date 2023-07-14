@@ -36,6 +36,14 @@ h2 {
   font-size: 1.6em;
 }
 
+.horizonal-divider {
+  height: 1px;
+  background-color: var(--color-fg-default);
+  margin-top: 0.4em;
+  margin-bottom: 0.6em;
+  opacity: 0.9;
+}
+
 .container {
   padding: 10;
 }
@@ -93,23 +101,57 @@ table.tickets-list th {
   background-color: var(--color-bg-light)
 }
 
-table.tickets-list tbody tr:nth-of-type(odd) {
+table.tickets-list>tbody>tr:nth-of-type(odd) {
   background-color: var(--color-bg-lighter)
+}
+
+table.tickets-list>tbody>tr>td:last-child,
+table.tickets-list>thead>tr>th:last-child {
+  padding-right: 1em;
+  padding-left: 1em;
+  text-align: right;
+  width: 27%;
+}
+
+table.tickets-list>tbody>tr>td:nth-child(2),
+table.tickets-list>thead>tr>th:nth-child(2) {
+  text-align: right;
+  width: 17%;
 }
 
 table.tickets-list td,
 table.tickets-list th {
   min-height: 2.5em;
   text-align: left;
-  padding-left: 0.6em;
-  padding-right: 0.6em;
   padding-top: 1em;
   padding-bottom: 1em;
 }
 
 table.tickets-list .sized-table-column {
   text-align: right;
-  width: 25%;
+}
+
+#calculatorResultTable th:first-child {
+  padding-left: 1em;
+}
+
+#calculatorResultTable>tbody>tr>td:first-child {
+  padding-left: 0.7em;
+}
+
+#calculatorResultTable>tbody>tr>td:last-child,
+#calculatorResultTable>tbody>tr>th:last-child {
+  padding-right: 1em;
+}
+
+#ticketsTable th:first-child,
+#ticketsTable td:first-child {
+  padding-left: 1em;
+}
+
+#ticketsTable th:last-child,
+#ticketsTable td:last-child {
+  padding-right: 1em;
 }
 
 #calculator .row {
@@ -159,8 +201,7 @@ input[type=number] {
 
 .canvas {
   width: 99%;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  margin-top: min(4em, 6vw);
   display: inline-block;
   border-radius: 6px;
   border: 1px solid var(--color-border-default);
@@ -227,21 +268,43 @@ button {
   display: none;
 }
 
-.edge-plus-container {
-  width: 0.4em;
-  display: inline-block;
-  margin-left: 0.2em;
-  margin-right: 0.2em;
+#remaining-options-title {
+  margin-top: 1.5em;
 }
 
-.edge-description-first-line {
-  display: inline-block;
-  margin-left: 1.0em;
-  margin-right: 0.2em;
-}
 
 #best-option-total-price-container {
   display: flex;
   flex-direction: row;
   column-gap: 1em;
+}
+
+table.option-description-table td {
+  padding: 0px;
+  margin: 0px;
+  vertical-align: top;
+}
+
+table.option-description-table td:nth-child(1) {
+  width: 0.1%;
+  padding-right: 0.15em;
+}
+
+table.option-description-table td:nth-child(2) {
+  width: 0.1%;
+  white-space: nowrap;
+  min-width: 1em;
+  text-align: right;
+}
+
+table.option-description-table td:nth-child(3) {
+  padding-left: 0.3em;
+}
+
+.scrollable-table-wrapper {
+  overflow-x: auto;
+}
+
+#bestOptionTable {
+  max-width: 18em;
 }

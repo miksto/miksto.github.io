@@ -64,7 +64,7 @@ function getTotalTravelsCount() {
 
 function populateTicketsTable() {
     $('#ticketsTable tbody tr').remove()
-    let allTickets = [...travelCards, singleJourneyTicket]
+    let allTickets = [singleJourneyTicket, ...(travelCards.sort((a, b) => a.days - b.days))]
     allTickets.forEach(ticket => {
         let row = $('<tr>');
         row.append($('<td>').html(ticket.title));
@@ -90,7 +90,7 @@ function displaySolutions(solutions) {
     let cheapestSolution = solutions.shift()
 
     $('#calculatorResultTable tbody tr').remove()
-    $('#best-option-ticket-desciption').html(`${formatOptionDescription(cheapestSolution)}`)
+    $('#best-option-ticket-desciption').html(formatOptionDescription(cheapestSolution))
     $('#best-option-ticket-total-cost-full').html(formatPrice(cheapestSolution.totalCostFull))
     $('#best-option-ticket-total-cost-reduced').html(formatPrice(cheapestSolution.totalCostReduced))
 

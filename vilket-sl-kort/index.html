@@ -55,28 +55,28 @@
           </div>
 
           <div id="best-option">
-            <div id="best-option-title">Billigaste alternativet:</div>
+            <div id="best-option-title">Billigaste alternativet</div>
             <div class="horizontal-padding">
               <p id="best-option-ticket-desciption"></p>
-              <table>
+              <div class="horizonal-divider"></div>
+              <table id="bestOptionTable">
                 <tbody>
                   <tr>
                     <td> Total kostnad vuxen: </td>
-                    <td id="best-option-ticket-total-cost-full"> Total kostnad vuxen: </td>
+                    <td id="best-option-ticket-total-cost-full"></td>
                   </tr>
                   <tr>
                     <td> Total kostnad rabatterad: </td>
-                    <td id="best-option-ticket-total-cost-reduced"> Total kostnad vuxen: </td>
+                    <td id="best-option-ticket-total-cost-reduced"></td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-
         </div>
 
-        <div id="remaining-options">
-          <h3 class="horizontal-padding">Övriga alternativ</h3>
+        <div id="remaining-options" class="scrollable-table-wrapper">
+          <h3 class="horizontal-padding" id="remaining-options-title">Övriga alternativ</h3>
           <table id="calculatorResultTable" class="tickets-list">
             <thead>
               <tr>
@@ -97,56 +97,59 @@
 
       <div class="canvas">
         <div class="horizontal-padding">
-          <h1>Alla biljett-typer</h1>
+          <h1>Alla biljetter</h1>
         </div>
 
-        <table id="ticketsTable" class="tickets-list">
-          <thead>
-            <tr>
-              <th>Biljett</th>
-              <th class="sized-table-column">Vuxen</th>
-              <th class="sized-table-column">Rabatterad</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Enkelbiljett 75 minuter</td>
-              <td class="sized-table-column">39,00&nbsp;kr</td>
-              <td class="sized-table-column">26,00&nbsp;kr</td>
-            </tr>
-            <tr>
-              <td>24-timmarsbiljett</td>
-              <td class="sized-table-column">165,00&nbsp;kr</td>
-              <td class="sized-table-column">110,00&nbsp;kr</td>
-            </tr>
-            <tr>
-              <td>72‑timmarsbiljett</td>
-              <td class="sized-table-column">330,00&nbsp;kr</td>
-              <td class="sized-table-column">220,00&nbsp;kr</td>
-            </tr>
-            <tr>
-              <td>7‑dagarsbiljett</td>
-              <td class="sized-table-column">440,00&nbsp;kr</td>
-              <td class="sized-table-column">290,00&nbsp;kr</td>
-            </tr>
-            <tr>
-              <td>30‑dagarsbiljett</td>
-              <td class="sized-table-column">970,00&nbsp;kr</td>
-              <td class="sized-table-column">650,00&nbsp;kr</td>
-            </tr>
-            <tr>
-              <td>90‑dagarsbiljett</td>
-              <td class="sized-table-column">2&nbsp;810,00&nbsp;kr</td>
-              <td class="sized-table-column">1&nbsp;880,00&nbsp;kr</td>
-            </tr>
-            <tr>
-              <td>Årsbiljett</td>
-              <td class="sized-table-column">10&nbsp;190,00&nbsp;kr</td>
-              <td class="sized-table-column">6&nbsp;830,00&nbsp;kr</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="note horizontal-padding">Ovan lista på biljetter är inte komplett. För en fullständing lista på
+        <div class="scrollable-table-wrapper">
+          <table id="ticketsTable" class="tickets-list">
+            <thead>
+              <tr>
+                <th>Biljett</th>
+                <th class="sized-table-column">Vuxen</th>
+                <th class="sized-table-column">Rabatterad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Enkelbiljett 75 minuter</td>
+                <td class="sized-table-column">39,00&nbsp;kr</td>
+                <td class="sized-table-column">26,00&nbsp;kr</td>
+              </tr>
+              <tr>
+                <td>24-timmarsbiljett</td>
+                <td class="sized-table-column">165,00&nbsp;kr</td>
+                <td class="sized-table-column">110,00&nbsp;kr</td>
+              </tr>
+              <tr>
+                <td>72‑timmarsbiljett</td>
+                <td class="sized-table-column">330,00&nbsp;kr</td>
+                <td class="sized-table-column">220,00&nbsp;kr</td>
+              </tr>
+              <tr>
+                <td>7‑dagarsbiljett</td>
+                <td class="sized-table-column">440,00&nbsp;kr</td>
+                <td class="sized-table-column">290,00&nbsp;kr</td>
+              </tr>
+              <tr>
+                <td>30‑dagarsbiljett</td>
+                <td class="sized-table-column">970,00&nbsp;kr</td>
+                <td class="sized-table-column">650,00&nbsp;kr</td>
+              </tr>
+              <tr>
+                <td>90‑dagarsbiljett</td>
+                <td class="sized-table-column">2&nbsp;810,00&nbsp;kr</td>
+                <td class="sized-table-column">1&nbsp;880,00&nbsp;kr</td>
+              </tr>
+              <tr>
+                <td>Årsbiljett</td>
+                <td class="sized-table-column">10&nbsp;190,00&nbsp;kr</td>
+                <td class="sized-table-column">6&nbsp;830,00&nbsp;kr</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note horizontal-padding">Vissa biljetter är inte inkluderade i denna lista. För en fullständing
+          lista på
           biljetter se: <a
             href="https://sl.se/biljetter/sortiment-och-regler">https://sl.se/biljetter/sortiment-och-regler</a></p>
       </div>
