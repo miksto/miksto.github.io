@@ -1,14 +1,14 @@
-# Bluetooth controled LED lamp
+# Bluetooth controlled LED lamp
 
 ## Features
 
-* Spotify integration. Sets the lamp to a color matching the album art. Similar to how the color of the spotify status bar notifiation is picked.
+* Spotify integration. Sets the lamp to a color matching the album art. Similar to how the color of the spotify status bar notification is picked.
 
 * Pick an image from the phone and display it on the lamp.
 
 * Flash lamp whenever the phone receives a new notification, such as when messages, emails etc. are received.
 
-* Various animated effects and mood effects. Night sky, loomy forrest and sunset to name a few.
+* Various animated effects and mood effects. Night sky, green forest and sunset to name a few.
 
 * Simple RGB color picker in the app.
 
@@ -40,7 +40,7 @@
 
 ### Lampshade, stand etc
 
-* The lamp shade is made from a cut PET bottle, and wrapped in a decorative window film found at Daiso in Tokyo. By glueing sawed off pieces of a square wood stick to the bottom of the lamp shade, some air is allowed to flow and cool the LEDs.
+* The lamp shade is made from a cut PET bottle, and wrapped in a decorative window film found at Daiso in Tokyo. By gluing sawed off pieces of a square wood stick to the bottom of the lamp shade, some air is allowed to flow and cool the LEDs.
 
 * PVC pipe to wrap the led strip around.
 
@@ -55,8 +55,10 @@ You can browse the entire code base at github.
 
 https://github.com/Makuna/NeoPixelBus - the only library supporting RGBW leds AND using DMA (Direct Memory Access) i could find by the time.
 
-DMA is preferred for efficient control of the leds, as opposed to bit bang and interrupt driven libraries which does not support any other interrupt driven code to work.
+DMA is preferred for efficient control of the leds, as opposed to bit bang and interrupt driven libraries which do not support any other interrupt driven code to work.
 
 ### Android App
 
 The android application does not use any special libraries, and is written in kotlin and relies on the standard BLE library for communication with the ESP32.
+
+
