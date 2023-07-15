@@ -1,4 +1,6 @@
-# Bluetooth controlled LED lamp
+# DIY Bluetooth RGB LED lamp
+
+A blutooth controlled RGB LED lamp with beautiful color effects.
 
 ## Features
 
