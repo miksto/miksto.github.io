@@ -13,11 +13,6 @@ A walkthrough of the seismometer as well as the software to collect and present 
 A LED lamp controlled via an Android app over BLE.
 [Project description](/led-lamp)
 
-## Temperature monitoring web page
-
-A web page displaying the current temperature in my room as well as graphs with historical data from up to one year ago.
-[http://temperature.micke.stockman.se/](http://temperature.micke.stockman.se/)
-
 ## Stuff from the past
 
 [Family home page](/family-page) created at around age 10.
