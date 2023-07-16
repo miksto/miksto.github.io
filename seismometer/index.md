@@ -1,6 +1,12 @@
-# DIY Seismometer
+---
+title: DIY vertical pendulum seismometer
+description: Building a Global Earthquake-Detecting Seismometer with a Raspberry Pi and Hardware Store Components.
+---
 
-This documentation consists of three parts
+# DIY Seismometer
+Building a Global Earthquake-Detecting Seismometer with a Raspberry Pi and Hardware Store Components. 
+
+The documentation consists of three parts
 
 - [The construction of the seismometer](#how-to-build-the-seismometer)
 - [The electronics](#electronics)
