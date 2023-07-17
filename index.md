@@ -8,18 +8,19 @@ Here you will find some of my projects that I have included either just for fun 
 
 ## Vertical Pendulum Seismometer
 
-After moving to Tokyo I got interested in earthquakes and decided to build my own seismometer. Much to my surprise i started picking up earthquakes from all over the world. Sometimes even from the opposite side of the globe.
+When I moved to Tokyo, I developed a fascination with earthquakes, which inspired me to construct my own seismometer. To my astonishment, I began detecting seismic activities not just locally, but from all around the world — sometimes even from the farthest corners of the globe."
 
-Visit the [Project description](/seismometer) for a walkthrough of the custruction of it, the electronics as well as the software.
+Check out the [Project description](/seismometer) for a detailed guide on how it was built, including the electronics and the software components.
 
 ## Bluetooth Controlled LED lamp
-A LED lamp based on an ESP32 which controlled using an Android application and Bluetooth. 
+A LED lamp that's based on an ESP32 and is controlled using an Android application via Bluetooth.
 
 Visit the [Project description](/led-lamp) to see pictures and learn how the lamp was constructed.
 
 ## Cheapest Metro Card in Stockholm
-A webpage that suggests the cheapest metro card based on how long time you will be staying in Stockholm, and how much you will travel.
-[https://vilket-sl-kort.se](https://vilket-sl-kort.se)
+This webpage suggests the most cost-effective metro card for your stay in Stockholm, based on the length of your visit and the amount you plan to travel.
+
+[vilket-sl-kort.se](https://vilket-sl-kort.se)
 
 ## Stuff From The Past
 
