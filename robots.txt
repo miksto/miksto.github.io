@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /family-page/
+Disallow: /derp-page/
