@@ -20,15 +20,15 @@ A blutooth controlled RGB LED lamp with beautiful color effects.
 * Simple RGB color picker in the app.
 
 <p align="middle">
-<img src="pink.jpg" alt="magnet" width="48%">
+<img src="pink.webp" alt="magnet" width="48%">
 
-<img src="orange.jpg" alt="magnet" width="48%">
+<img src="orange.webp" alt="magnet" width="48%">
 </p>
 
 <p align="middle">
-<img src="purple_blue.jpg" alt="magnet" width="48%">
+<img src="purple_blue.webp" alt="magnet" width="48%">
 
-<img src="purple_orange.jpg" alt="magnet" width="48%">
+<img src="purple_orange.webp" alt="magnet" width="48%">
 </p>
 
 ## Hardware
