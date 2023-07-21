@@ -24,6 +24,6 @@ This webpage suggests the most cost-effective metro card for your stay in Stockh
 
 ## Stuff From The Past
 
-[Family home page](/family-page) created at around age 10.
+<a rel="nofollow" href="/family-page">Family home page</a> created at around age 10.
 
-[Another random web page](/derp-page) I created as a child. Beware of many popups and other "fun" stuff.
+<a rel="nofollow" href="/derp-page">Another random web page</a> I created as a child. Beware of many popups and other "fun" stuff.
