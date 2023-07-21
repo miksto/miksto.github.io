@@ -17,10 +17,10 @@ After moving to Tokyo in Japan, a country with up to 10 earthquakes per day, I c
 The seismometer turned out to work beyond my expectations, and I became really excited when I captured an earthquake outside the coast of Australia. Since then I have even been able to capture earthquakes on the other side of the earth.
 
 _The seismometer_
-![Seismometer overview](seismometer_overview_small.webp)
+[![Seismometer overview](seismometer_overview_small.webp)](seismometer_overview_small.webp)
 
 _An example of two recorded earthquakes_
-![An earthquake](double_earthquake_small.webp)
+[![An earthquake](double_earthquake_small.webp)](double_earthquake_small.webp)
 
 After browsing the internet for different DIY seismometers, I decided on a vertical pendulum seismometer based on ease of build. Specifically [https://tc1seismometer.wordpress.com/](https://tc1seismometer.wordpress.com/) was a great resource for
 information on the construction. As for the electronics, this page [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was very informative.
@@ -90,7 +90,7 @@ To connect the coil to the electric circuit a shielded stereo audio cable is use
 
 When designing the electronic circuit, [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was my primary source of inspiration. Although the final circuit differs quite a bit the working principle remains the same.
 
-![Circuit diagram](circuit_diagram_small.webp)
+[![Circuit diagram](circuit_diagram_small.webp)](circuit_diagram_small.webp)
 _Note: While not shown in the circuit diagram, all ICs have a bypass capacitor, as well as separate power and ground leads, forming a so called star ground._
 
 ## Power supply
