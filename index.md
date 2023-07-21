@@ -10,12 +10,12 @@ Here you will find some of my projects that I have included either just for fun 
 
 When I moved to Tokyo, I developed a fascination with earthquakes, which inspired me to construct my own seismometer. To my astonishment, I began detecting seismic activities not just locally, but from all around the world — sometimes even from the farthest corners of the globe."
 
-Check out the [Project description](/seismometer) for a detailed guide on how it was built, including the electronics and the software components.
+Check out the [seismometer project description](/seismometer) for a detailed guide on how it was built, including the electronics and the software components.
 
 ## Bluetooth Controlled LED lamp
 A LED lamp that's based on an ESP32 and is controlled using an Android application via Bluetooth.
 
-Visit the [Project description](/led-lamp) to see pictures and learn how the lamp was constructed.
+Visit the [led-lamp project description](/led-lamp) to see pictures and learn how the lamp was constructed.
 
 ## Cheapest Metro Card in Stockholm
 This webpage suggests the most cost-effective metro card for your stay in Stockholm, based on the length of your visit and the amount you plan to travel.
