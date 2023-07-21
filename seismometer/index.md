@@ -36,7 +36,7 @@ In an attempt to minimize RF noise, the frame was chosen to be a rolled up metal
 Since we will have magnets inside this tube, make sure the metal mesh and any nuts and screws are made of a non magnetic material. 
 
 <p align="center">
-  <a><img src="metal_mesh_small.webp" alt="Rolled metal net" width="60%">metal_mesh.webp</a>
+  <a href="metal_mesh.webp"><img src="metal_mesh_small.webp" alt="Rolled metal net" width="60%"></a>
 </p>
 
 ## The coil
@@ -45,7 +45,7 @@ The coil is wound with an AWG 18 wire around an empty tape roll, with a large en
 My coil turned out a bit shy of that, with a resistance of 570 ohms as the wire snapped while winding the coil.
 
 <p align="center">
-  <a><img src="coil_small.webp" alt="Coil" width="60%">coil.webp</a>
+  <a href="coil.webp"><img src="coil_small.webp" alt="Coil" width="60%"></a>
 </p>
 
 
@@ -53,9 +53,9 @@ My coil turned out a bit shy of that, with a resistance of 570 ohms as the wire 
 The spring consists of a plastic spring I deemed suitable, which I found at Tokyu Hands. The neodymium magnets are screwed into place on an eye bolt, and hung on the spring. In the picture you can see two pairs of magnets. The upper pair will be inside the coil and generate the measured signal, and the pair at the end of the bolt is part of the dampener.
 
 
-<a><img align="left" src="magnet_small.webp" alt="magnet" width="33%">magnet.webp</a>
+<a href="magnet.webp"><img align="left" src="magnet_small.webp" alt="magnet" width="33%"></a>
 
-<a><img align="right" src="magnet_assembly_small.webp" alt="magnet" width="50%">magnet_assembly.webp</a>
+<a href="magnet_assembly.webp"><img align="right" src="magnet_assembly_small.webp" alt="magnet" width="50%"></a>
 <br clear="all" />
 <br>
 
@@ -63,8 +63,8 @@ The spring consists of a plastic spring I deemed suitable, which I found at Toky
 A dampener is required to prevent the seismometer from being overly sensitive in its resonant frequency. Without a dampener even just a small vibration will cause the spring to bounce up and down for a very long time.
 You want the spring, when pulled and released, to return to and just barely overshoot its resting position before coming to a rest.
 
-<a><img align="left" src="metal_pipe_small.webp" alt="Dampener pipe" width="50%">metal_pipe.webp</a>
-<a><img align="left" src="sketch_small.webp" alt="Dampener pipe" width="25%">sketch.webp</a>
+<a href="metal_pipe.webp"><img align="left" src="metal_pipe_small.webp" alt="Dampener pipe" width="50%"></a>
+<a href="sketch.webp"><img align="left" src="sketch_small.webp" alt="Dampener pipe" width="25%"></a>
 <br clear="all">
 <br>
 To get the desired dampening a metal pipe placed below the coil, and the lower pair of magnets extend into the pipe. When the magnets move they produce eddy currents in the pipe, which in turn creates a magnetic field opposing that of the magnet. The end result is a force that opposes the motion of the magnets, and oscillations quickly decay.
@@ -75,7 +75,7 @@ A high conductivity metal like copper is a good choice, but with a limited selec
 The coil is placed on a circular foam pad held in place by the friction against the wall of the rolled metal mesh. The metal pipe is held in place by two foam pads, one in each end.
 
 <p align="center">
-  <a><img src="spring_paper_small.webp" alt="Paper spring holder" width="60%">spring_paper.webp</a>
+  <a href="spring_paper.webp"><img src="spring_paper_small.webp" alt="Paper spring holder" width="60%"></a>
 </p>
 The spring is held in place by a piece of stiff paper, and hung from the top of the metal mesh roll.
 This could certainly be improved as even a light touch easily knocks the spring and magnets out of position.
@@ -83,7 +83,7 @@ This could certainly be improved as even a light touch easily knocks the spring 
 To connect the coil to the electric circuit a shielded stereo audio cable is used. The shielding is connected to the metal mesh itself, and the two inner cables are attached to each end of the coil. This way, the current from the coil is passed as a differential signal, with a shielding further increasing the noise immunity. When I tried to use a mono stereo cable the noise levels were noticeably higher.
 
 <p align="center">
-  <a><img src="cable_small.webp" alt="Paper spring holder" width="60%">cable.webp</a>
+  <a href="cable.webp"><img src="cable_small.webp" alt="Paper spring holder" width="60%"></a>
 </p>
 
 # Electronics
