@@ -7,13 +7,6 @@ image:
   height: 975
   width: 1300
   alt: Photo of the vertical pendulum seismometer
-
-primaryImageOfPage:
-  type: ImageObject
-  url: /seismometer/seismometer_overview_small.webp
-  height: 975
-  width: 1300
-  caption: Photo of the vertical pendulum seismometer
 ---
 
 # DIY Seismometer
