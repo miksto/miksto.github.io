@@ -7,6 +7,12 @@ description: How I built a DIY Blutooth-controlled RGB LED lamp with an ESP32 an
 
 A blutooth controlled RGB LED lamp with beautiful color effects.
 
+<p align="middle">
+<img src="purple_blue.webp" alt="Photo of the led lamp displaying a picture of super nova" width="48%">
+
+<img src="purple_orange.webp" alt="Photo of the led lamp displaying a picture of a colorful comet" width="48%">
+</p>
+
 ## Features
 
 * Spotify integration. Sets the lamp to a color matching the album art. Similar to how the color of the spotify status bar notification is picked.
@@ -18,18 +24,6 @@ A blutooth controlled RGB LED lamp with beautiful color effects.
 * Various animated effects and mood effects. Night sky, green forest and sunset to name a few.
 
 * Simple RGB color picker in the app.
-
-<p align="middle">
-<img src="pink.webp" alt="magnet" width="48%">
-
-<img src="orange.webp" alt="magnet" width="48%">
-</p>
-
-<p align="middle">
-<img src="purple_blue.webp" alt="magnet" width="48%">
-
-<img src="purple_orange.webp" alt="magnet" width="48%">
-</p>
 
 ## Hardware
 
