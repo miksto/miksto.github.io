@@ -4,8 +4,8 @@ description: Building a Global Earthquake-Detecting Seismometer with a Raspberry
 
 image:
   path: /seismometer/seismometer_overview_small.webp
-  height: 975
-  width: 1300
+  height: 816
+  width: 1153
   alt: Photo of the vertical pendulum seismometer
 ---
 
