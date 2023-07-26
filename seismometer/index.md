@@ -1,6 +1,12 @@
 ---
 title: DIY vertical pendulum seismometer
 description: Building a Global Earthquake-Detecting Seismometer with a Raspberry Pi and Hardware Store Components.
+
+image:
+  path: /seismometer/seismometer_overview_small.webp
+  height: 975
+  width: 1300
+  alt: Photo of the vertical pendulum seismometer
 ---
 
 # DIY Seismometer

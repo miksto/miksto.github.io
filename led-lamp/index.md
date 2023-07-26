@@ -1,6 +1,12 @@
 ---
 title: DIY Bluetooth-controlled LED lamp
 description: Building a Blutooth-controlled LED lamp with an ESP32 and an Android application.
+
+image:
+  path: /led-lamp/purple_orange.webp
+  height: 873
+  width: 728
+  alt: Photo of the led lamp displaying a picture of a colorful comet
 ---
 
 # DIY Bluetooth LED lamp
