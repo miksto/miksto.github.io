@@ -11,7 +11,7 @@ image:
 
 # DIY Bluetooth LED lamp
 
-How to build a Blutooth-controlled LED lamp with an ESP32 and an Android application.
+How I built a Blutooth-controlled LED lamp with an ESP32 and an Android application.
 
 <p align="middle">
 <img src="purple_orange.webp" alt="Photo of the led lamp displaying a picture of a colorful comet" width="48%">
