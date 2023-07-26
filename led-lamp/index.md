@@ -1,16 +1,16 @@
 ---
-title: DIY Bluetooth RGB LED lamp
-description: How I built a DIY Blutooth-controlled RGB LED lamp with an ESP32 and an Android application.
+title: DIY Bluetooth-controlled LED lamp
+description: Building a Blutooth-controlled LED lamp with an ESP32 and an Android application.
 ---
 
-# DIY Bluetooth RGB LED lamp
+# DIY Bluetooth LED lamp
 
-A blutooth controlled RGB LED lamp with beautiful color effects.
+How to build a Blutooth-controlled LED lamp with an ESP32 and an Android application.
 
 <p align="middle">
-<img src="purple_blue.webp" alt="Photo of the led lamp displaying a picture of super nova" width="48%">
-
 <img src="purple_orange.webp" alt="Photo of the led lamp displaying a picture of a colorful comet" width="48%">
+
+<img src="purple_blue.webp" alt="Photo of the led lamp displaying a picture of super nova" width="48%">
 </p>
 
 ## Features
