@@ -33,11 +33,11 @@ information on the construction. As for the electronics, this page [http://www.i
 
 In essence the seismometer consists of a magnet suspended by a spring, which will move relative to a coil as the ground moves. When the magnet moves, a small current is generated in the coil, which by the use of an op-amp is amplified and represented as a voltage ranging from around 0V to 5V. This voltage is sampled by an ADC and a RaspberryPi at 750 Hz, and then in software passed through a low-pass filter with a cutoff frequency of about 1.4 Hz. The software processing is to a large extent handled by the library [obspy](https://www.obspy.org/), a python library for seismology. After the low-pass filtering the signal is downsampled from 750 samples per second to a more suitable 15 samples per second and sent to a web server that stores the data, saves plots as images, and provides an API for the web frontend.
 
-# How to build the seismometer
+## How to build the seismometer
 
 This seismometer is based on the TC1 seismometer, and while the choice of materials differ, the basic construction principles are very much alike. 
 
-## The frame
+### The frame
 In an attempt to minimize RF noise, the frame was chosen to be a rolled up metal mesh.  It came in a plastic wrapping which I kept on to protect the seismometer from drafts.
 Since we will have magnets inside this tube, make sure the metal mesh and any nuts and screws are made of a non magnetic material. 
 
@@ -45,7 +45,7 @@ Since we will have magnets inside this tube, make sure the metal mesh and any nu
   <a href="metal_mesh.webp"><img src="metal_mesh_small.webp" alt="Rolled metal net" width="60%"></a>
 </p>
 
-## The coil
+### The coil
 
 The coil is wound with an AWG 18 wire around an empty tape roll, with a large enough inner diameter for the neodymium magnets to pass through with some margin. The desired resistance of the coil is 700 ohms to 2000 ohms according to the TC1 webpage.
 My coil turned out a bit shy of that, with a resistance of 570 ohms as the wire snapped while winding the coil.
@@ -55,7 +55,7 @@ My coil turned out a bit shy of that, with a resistance of 570 ohms as the wire 
 </p>
 
 
-## Spring and magnets
+### Spring and magnets
 The spring consists of a plastic spring I deemed suitable, which I found at Tokyu Hands. The neodymium magnets are screwed into place on an eye bolt, and hung on the spring. In the picture you can see two pairs of magnets. The upper pair will be inside the coil and generate the measured signal, and the pair at the end of the bolt is part of the dampener.
 
 
@@ -65,7 +65,7 @@ The spring consists of a plastic spring I deemed suitable, which I found at Toky
 <br clear="all" />
 <br>
 
-## The dampener
+### The dampener
 A dampener is required to prevent the seismometer from being overly sensitive in its resonant frequency. Without a dampener even just a small vibration will cause the spring to bounce up and down for a very long time.
 You want the spring, when pulled and released, to return to and just barely overshoot its resting position before coming to a rest.
 
@@ -77,7 +77,7 @@ To get the desired dampening a metal pipe placed below the coil, and the lower p
 
 A high conductivity metal like copper is a good choice, but with a limited selection I went for a aluminum pipe which also worked great.
 
-## Assembly
+### Assembly
 The coil is placed on a circular foam pad held in place by the friction against the wall of the rolled metal mesh. The metal pipe is held in place by two foam pads, one in each end.
 
 <p align="center">
@@ -92,20 +92,20 @@ To connect the coil to the electric circuit a shielded stereo audio cable is use
   <a href="cable.webp"><img src="cable_small.webp" alt="Paper spring holder" width="60%"></a>
 </p>
 
-# Electronics
+## Electronics
 
 When designing the electronic circuit, [http://www.infiltec.com/seismo/](http://www.infiltec.com/seismo/) was my primary source of inspiration. Although the final circuit differs quite a bit the working principle remains the same.
 
 [![Circuit diagram](circuit_diagram_small.webp)](circuit_diagram.webp)
 _Note: While not shown in the circuit diagram, all ICs have a bypass capacitor, as well as separate power and ground leads, forming a so called star ground._
 
-## Power supply
+### Power supply
 The circuit is powered by a 9V SMPS, regulated down to 5V by a LP2950.
 
 As specified by the [datasheet](http://www.ti.com/lit/ds/symlink/lp2951-n.pdf) the input side requires a capacitor with a minimum of 1 uF, and the output side a minimum of 1 uF. Without the output capacitor the device will oscillate.
 Furthermore, for the regulation to work properly, there is a required minimum ESR for the output capacitor. Therefore ceramic capacitors (if used), have to be connected in series with a resistor to simulate the needed ESR.
 
-## OP-Amp
+### OP-Amp
 
 There are four op-amps in this circuit. One creates a ~2.5V bias voltage for the coil, and another amplifies the signal from the coil 2000-3000 times. The last two ones form a low-pass filter sitting right before the ADC.
 
@@ -121,7 +121,7 @@ _An additional note:_ The above mentioned 2.5V bias voltage is based on the assu
 The gain of the second op-amp is the fraction of the two feedback resistors and the resistance of the coil. In this case 2MΩ / 570Ω = 3509. The capacitors in the feedback loop forms a low-pass filter with a cutoff frequency Fc = 1 / 2πRC = 1(2π\*2MΩ\*50nF) = ~1.59 Hz
 Ceramic capacitors are known for their piezoelectric effects which might result in increased noise. In low noise filtering applications such as this case, film capacitors can be a better choice.
 
-## Low-pass Filtering
+### Low-pass Filtering
 
 In the original circuit an 8 Pole Sallen–Key low-pass filter with a cutoff frequency of ~1.59 Hz was used in between the op-amp output and the ADC input. However, as I later came to realize, analog filters with such a low cutoff frequency are not all that good, and I abandoned those analog filters and went for a digital filter as a post processing step on the RaspberryPi. As digital filters do not suffer from the physical limitations of analog filters, they can provide a clean cutoff down to our desired ~1 Hz.
 
@@ -133,15 +133,15 @@ An effective solution is therefore to combine oversampling with a low-pass filte
 >The ADC is sampled at 750 Hz, and a 4 pole sallen-key low-pass filter with a cutoff frequency of about 106 Hz is used.
 >With a nyquist frequency of 375 Hz, the filter has a 375-106=269 Hz transition band to remove frequencies that would cause aliasing.
 
-## Analog to Digital Converter (ADC)
+### Analog to Digital Converter (ADC)
 
 The ADC currently in use is a MCP3208, a 12 bit ADC with an SPI output for communication with the RaspberryPi.
 
-## Logic Level Shifter
+### Logic Level Shifter
 
 Since the circuit is powered by 5V and the RaspberryPi IO pins operate at 3.3V, a logic level shifter sits in between the ADC output and the RaspberryPi translating between the two voltages.
 
-# Software
+## Software
 
 The software consists of three pieces.
 
@@ -149,7 +149,7 @@ The software consists of three pieces.
 - The web server that stores the data as files and provides an API for the web frontend.
 - The web frontend showing various plots of the last 24 hours of data, as well as a graph that in near real-time shows data as it is received by the server.
 
-## Client
+### Client
 
 You can find the source code of the script [here at GitHub](https://github.com/miksto/seismograph-backend/blob/master/seism_logger.py)
 
@@ -164,7 +164,7 @@ We want the average of the collected data points to be zero, which would be a ve
 Therefore, to ensure that the average value stays at zero and doesn't drift as the temperature changes, some extra measures need to be taken.
 The approach in this project is to keep a rolling 2 minute average of the sampled values, and subtract this rolling average from every sampled datapoint. Perhaps not the most elegant or sophisticated solution, but despite its simplicity it works just fine.
 
-## Server
+### Server
 
 You can find the source code [here at GitHub](https://github.com/miksto/seismograph-backend)
 
@@ -172,7 +172,7 @@ As for the server software I am not going to cover it in that much detail, as I 
 It listens for data on a websocket, stores the data in an MSEED file per day, while hourly generating and saving a plot of the last hour as an image. Finally, at the end of each day a 24 hour plot is generated, where any major earthquake is displayed with location and magnitude printed.
 The websocket does not only receive data, but also broadcasts it to any listening client. This is used by the web frontend to update the graph as soon as data is received by the server.
 
-## Web App
+### Web App
 
 You can find the source code [here at GitHub](https://github.com/miksto/seismograph-web-frontend)
 
