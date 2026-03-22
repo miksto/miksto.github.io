@@ -15,6 +15,10 @@ A native macOS app for managing terminal sessions across multiple project folder
 
 ![Screenshot of TermHub showing the terminal session manager with sidebar and integrated terminal](screenshot.webp)
 
+## Motivation
+
+TermHub was created to make it easier to run multiple [Claude Code](https://docs.anthropic.com/en/docs/claude-code) sessions in parallel across different git repos and worktrees. When working with AI-assisted coding, it's common to have several Claude sessions going at once -- each working on a separate task in its own branch. TermHub keeps all of those sessions organized, makes it easy to switch between them, and notifies you the moment a session finishes or needs attention.
+
 ## Features
 
 * **Multi-folder terminal management** -- Organize terminal sessions by project folder. Sessions persist automatically across restarts.

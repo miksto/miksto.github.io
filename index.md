@@ -14,7 +14,7 @@ Check out the [seismometer project description](/seismometer) for a detailed gui
 
 ## TermHub
 
-A native macOS app for managing terminal sessions across multiple project folders with automatic git worktree support. Organize sessions by project, create git worktrees with a built-in branch picker, and review changes with an inline diff viewer -- all backed by tmux for session persistence.
+A native macOS app for managing multiple Claude Code sessions in parallel across different git repos and worktrees. It keeps terminal sessions organized by project, supports creating git worktrees with a built-in branch picker, and notifies you when a session finishes or needs attention.
 
 Check out the [TermHub project description](/termhub) for more details, or browse the source code on [GitHub](https://github.com/miksto/TermHub).
 
