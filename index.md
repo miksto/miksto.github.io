@@ -12,6 +12,12 @@ When I moved to Tokyo, I developed a fascination with earthquakes, which inspire
 
 Check out the [seismometer project description](/seismometer) for a detailed guide on how it was built, including the electronics and the software components.
 
+## TermHub
+
+A native macOS app for managing terminal sessions across multiple project folders with automatic git worktree support. Organize sessions by project, create git worktrees with a built-in branch picker, and review changes with an inline diff viewer -- all backed by tmux for session persistence.
+
+Check out the [TermHub project description](/termhub) for more details, or browse the source code on [GitHub](https://github.com/miksto/TermHub).
+
 ## Bluetooth Controlled LED lamp
 A LED lamp that's based on an ESP32 and is controlled using an Android application via Bluetooth.
 
