@@ -25,6 +25,10 @@ TermHub was created to make it easier to run multiple [Claude Code](https://docs
 
 * **Git worktree integration** -- Create worktrees from existing branches or new ones via a built-in branch picker with fuzzy search. Includes an inline diff viewer and per-session change indicators in the sidebar.
 
+* **Docker sandbox support** -- Run sessions inside isolated Docker containers. Useful for letting AI coding agents work without affecting your host system. Supports multiple agent types including Claude Code, GitHub Copilot, Codex, and Gemini.
+
+* **Implement in worktree** -- A Claude Code slash command that takes a plan from the current conversation, creates a new worktree, and opens a new TermHub session where Claude Code automatically starts implementing the plan. Optionally runs inside a Docker sandbox.
+
 * **Tmux-backed sessions** -- Each session runs in tmux, so your work survives app restarts.
 
 * **Command palette** -- `⌘P` to quickly access actions, sessions, and branches.
